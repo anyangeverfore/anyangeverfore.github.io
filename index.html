@@ -214,7 +214,6 @@
 <nav>
   <a href="#" class="nav-logo">안양 에버포레 <span>입예협</span></a>
   <ul>
-    <li><a href="#blocks">단지</a></li>
     <li><a href="#about">소개</a></li>
     <li><a href="#news">소식</a></li>
     <li><a href="#gallery">갤러리</a></li>
@@ -241,8 +240,8 @@
 
 <div class="stats">
   <div class="stat-item"><div class="stat-num">404<span>세대</span></div><div class="stat-label">A1+A2 총 세대수</div></div>
-  <div class="stat-item"><div class="stat-num">1.5<span>대</span></div><div class="stat-label">넉넉한 세대당 주차공간</div></div>
   <div class="stat-item"><div class="stat-num">84·95<span>㎡</span></div><div class="stat-label">중대형 평형</div></div>
+  <div class="stat-item"><div class="stat-num">1.5<span>대</span></div><div class="stat-label">넉넉한 세대당 주차공간</div></div>
   <div class="stat-item"><div class="stat-num">2028<span>년 8월</span></div><div class="stat-label">입주 예정</div></div>
 </div>
 
@@ -269,7 +268,7 @@
         </div>
         <div class="feature-item">
           <div class="feature-icon">🏫</div>
-          <div><div class="feature-title">안심 도보 통학권</div><div class="feature-desc">반경 500m 내 관양초·중·고교가 위치한 안심 도보통학권</div></div>
+          <div><div class="feature-title">안심 도보 통학권</div><div class="feature-desc">반경 500m 내 초·중·고교가 위치한 안심 도보통학권</div></div>
         </div>
         <div class="feature-item">
           <div class="feature-icon">🚇</div>
@@ -286,17 +285,43 @@
 
 <section class="news" id="news">
   <div class="news-header">
-    <div><div class="section-tag">NEWS</div><h2 class="section-title">입예협 소식</h2></div>
+    <div><div class="section-tag">NEWS</div><h2 class="section-title">단지 소식</h2></div>
   </div>
+
+  <!-- 최신 6개 -->
   <div class="news-grid">
-    <div class="news-card"><div class="news-date">2026. 05. 01</div><div class="news-title">주택전시관 오픈 — 모델하우스 현장 공개</div><span class="news-tag">모델하우스</span></div>
-    <div class="news-card"><div class="news-date">2026. 05. 11</div><div class="news-title">특별공급 청약 접수</div><span class="news-tag">청약</span></div>
-    <div class="news-card"><div class="news-date">2026. 05. 12 ~ 14</div><div class="news-title">일반공급 청약 접수 — 1순위 안양 역대 최고 경쟁률 경신</div><span class="news-tag">청약</span></div>
-    <div class="news-card"><div class="news-date">2026. 05. 20</div><div class="news-title">A2BL 당첨자 발표</div><span class="news-tag">당첨발표</span></div>
-    <div class="news-card"><div class="news-date">2026. 05. 21</div><div class="news-title">A1BL 당첨자 발표</div><span class="news-tag">당첨발표</span></div>
-    <div class="news-card"><div class="news-date">2026. 06. 25 ~ 27</div><div class="news-title">A1BL 정당계약</div><span class="news-tag">계약</span></div>
     <div class="news-card"><div class="news-date">2026. 07. 09 ~ 11</div><div class="news-title">A2BL 정당계약</div><span class="news-tag">계약</span></div>
+    <div class="news-card"><div class="news-date">2026. 06. 25 ~ 27</div><div class="news-title">A1BL 정당계약</div><span class="news-tag">계약</span></div>
+    <div class="news-card"><div class="news-date">2026. 05. 21</div><div class="news-title">A1BL 당첨자 발표</div><span class="news-tag">당첨발표</span></div>
+    <div class="news-card"><div class="news-date">2026. 05. 20</div><div class="news-title">A2BL 당첨자 발표</div><span class="news-tag">당첨발표</span></div>
+    <div class="news-card"><div class="news-date">2026. 05. 12 ~ 14</div><div class="news-title">일반공급 청약 접수 — 1순위 안양 역대 최고 경쟁률 경신</div><span class="news-tag">청약</span></div>
+    <div class="news-card"><div class="news-date">2026. 05. 11</div><div class="news-title">특별공급 청약 접수</div><span class="news-tag">청약</span></div>
   </div>
+
+  <!-- 더보기 -->
+  <div id="news-more" style="display:none;">
+    <div class="news-grid" style="margin-top:1.5rem;">
+      <div class="news-card"><div class="news-date">2026. 05. 01</div><div class="news-title">주택전시관 오픈 — 모델하우스 현장 공개</div><span class="news-tag">모델하우스</span></div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:2rem;">
+    <button id="news-toggle" onclick="toggleNews()" style="background:none;border:1px solid rgba(45,74,45,0.2);color:var(--forest-mid);font-size:.8rem;letter-spacing:.08em;padding:.7rem 2rem;border-radius:2px;cursor:pointer;transition:all .2s;">MORE +</button>
+  </div>
+
+  <script>
+    function toggleNews() {
+      const more = document.getElementById('news-more');
+      const btn = document.getElementById('news-toggle');
+      if (more.style.display === 'none') {
+        more.style.display = 'block';
+        btn.textContent = 'CLOSE −';
+      } else {
+        more.style.display = 'none';
+        btn.textContent = 'MORE +';
+      }
+    }
+  </script>
 </section>
 
 <!-- 갤러리 팝업 -->
@@ -338,7 +363,7 @@
   <div class="section-tag">TRANSPORT</div>
   <h2 class="section-title">교통 & 개발 호재</h2>
   <div class="transport-grid" style="margin-top:2.5rem;">
-    <div class="transport-card"><div class="transport-title">인덕원역 / 평촌역 (4호선)</div><div class="transport-detail">현재 가장 가까운 지하철역. 단지 앞 버스 이용 시 환승 가능.</div><span class="transport-badge">현재 이용 가능</span></div>
+    <div class="transport-card"><div class="transport-title">인덕원역 / 평촌역 (4호선)</div><div class="transport-detail">단지 앞 버스 이용 시 환승 가능.</div><span class="transport-badge">현재 이용 가능</span></div>
     <div class="transport-card"><div class="transport-title">인덕원~동탄 복선전철</div><div class="transport-detail">국토부 고시 완료 (제2026-19호). 인덕원역 환승으로 판교·동탄 직결.</div><span class="transport-badge">개통 예정</span></div>
     <div class="transport-card"><div class="transport-title">월곶~판교 복선전철</div><div class="transport-detail">국토부 고시 완료 (제2025-56호). 판교 테크노밸리 30분대.</div><span class="transport-badge">개통 예정</span></div>
     <div class="transport-card"><div class="transport-title">GTX-C 노선</div><div class="transport-detail">국토부 고시 완료 (제2024-483호). 수원~삼성~청량리 초고속 연결.</div><span class="transport-badge">개통 예정</span></div>
@@ -363,15 +388,14 @@ document.getElementById('gallery-popup').addEventListener('click', function(e) {
 
 <section class="blocks" id="blocks">
   <div class="blocks-header">
-    <div class="section-tag">BLOCK INFO</div>
-    <h2 class="section-title">A1블록 · A2블록 단지 정보</h2>
-    <p class="section-desc">두 블록 당첨자 발표일이 달라 중복 청약이 가능했던 안양 역대 최고 경쟁률 단지</p>
+    <div class="section-tag">HOUSING SUBSCRIPTION</div>
+    <h2 class="section-title">청약 정보</h2>
   </div>
   <div class="blocks-grid">
     <div class="block-card a1">
       <div class="block-card-header">
         <div>
-          <div class="block-label">A1 블록</div>
+          <div class="block-label">A1BL</div>
           <div class="block-sub">테라스형 연립 · 민영주택</div>
         </div>
         <div class="block-tag">60세대</div>
@@ -380,7 +404,7 @@ document.getElementById('gallery-popup').addEventListener('click', function(e) {
         <div class="block-meta">
           <div class="block-row"><span class="block-key">전용면적</span><span class="block-val accent">95㎡ 단일 평형</span></div>
           <div class="block-row"><span class="block-key">건물 형태</span><span class="block-val">4층 이하 테라스형 연립</span></div>
-          <div class="block-row"><span class="block-key">분양가 (기준층)</span><span class="block-val accent">약 10.6억 (95A)</span></div>
+          <div class="block-row"><span class="block-key">분양가 (기준층)</span><span class="block-val accent">10.0억 ~ 10.7억 (95타입)</span></div>
           <div class="block-row"><span class="block-key">청약 방식</span><span class="block-val">가점제 80% / 추첨제 20%</span></div>
           <div class="block-row"><span class="block-key">당첨자 발표</span><span class="block-val">2026. 05. 21</span></div>
           <div class="block-row"><span class="block-key">계약 기간</span><span class="block-val">2026. 06. 25 ~ 27</span></div>
@@ -396,7 +420,7 @@ document.getElementById('gallery-popup').addEventListener('click', function(e) {
     <div class="block-card a2">
       <div class="block-card-header">
         <div>
-          <div class="block-label">A2 블록</div>
+          <div class="block-label">A2BL</div>
           <div class="block-sub">아파트 · 공공분양</div>
         </div>
         <div class="block-tag">344세대</div>
@@ -405,10 +429,10 @@ document.getElementById('gallery-popup').addEventListener('click', function(e) {
         <div class="block-meta">
           <div class="block-row"><span class="block-key">전용면적</span><span class="block-val accent">84㎡ 단일 평형</span></div>
           <div class="block-row"><span class="block-key">건물 형태</span><span class="block-val">최고 18층 아파트</span></div>
-          <div class="block-row"><span class="block-key">분양가</span><span class="block-val accent">약 8억 (84타입)</span></div>
+          <div class="block-row"><span class="block-key">분양가</span><span class="block-val accent">7.5억 ~ 8.0억 (84타입)</span></div>
           <div class="block-row"><span class="block-key">청약 방식</span><span class="block-val">저축총액 순 (공공분양)</span></div>
           <div class="block-row"><span class="block-key">당첨자 발표</span><span class="block-val">2026. 05. 20</span></div>
-          <div class="block-row"><span class="block-key">계약 기간</span><span class="block-val">2026. 06. 25 ~ 27</span></div>
+          <div class="block-row"><span class="block-key">계약 기간</span><span class="block-val">2026. 07. 09 ~ 11</span></div>
         </div>
         <div class="types-grid">
           <span class="type-badge">84A · 72세대</span>
