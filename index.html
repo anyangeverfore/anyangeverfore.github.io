@@ -250,7 +250,7 @@
   <div class="about-inner">
     <div class="about-visual">
       <div class="about-visual-inner" style="background:linear-gradient(135deg,#2d4a2d 0%,#3d6b3d 100%);">
-        <div style="position:absolute;inset:0;background-image:url('location.png');background-size:150%;background-position:95% center;mask-image:linear-gradient(to left, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.2) 45%, transparent 65%);"></div>
+        <div style="position:absolute;inset:0;background-image:url('location.png');background-size:150%;background-position:5% center;mask-image:linear-gradient(to left, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.2) 45%, transparent 65%);"></div>
         <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:.8rem;">
           <div class="about-visual-text">ANYANG EVERFORE</div>
           <div class="about-visual-main">에버포레</div>
@@ -298,33 +298,40 @@
   </div>
 </section>
 
+<!-- 갤러리 팝업 -->
+<div id="gallery-popup" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:1000;align-items:center;justify-content:center;flex-direction:column;">
+  <button onclick="closePopup()" style="position:absolute;top:1.5rem;right:2rem;background:none;border:none;color:#fff;font-size:2rem;cursor:pointer;line-height:1;">×</button>
+  <img id="popup-img" src="" alt="" style="max-width:90vw;max-height:85vh;object-fit:contain;border-radius:4px;">
+  <div id="popup-caption" style="margin-top:1rem;font-size:.8rem;color:rgba(255,255,255,.5);letter-spacing:.06em;"></div>
+</div>
+
 <section class="gallery" id="gallery">
   <div class="section-tag">GALLERY</div>
-  <h2 class="section-title">단지 갤러리</h2>
+  <h2 class="section-title">에버포레 갤러리</h2>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:2.5rem;">
-    <div style="grid-column:1/3;overflow:hidden;border-radius:6px;aspect-ratio:16/7;">
-      <img src="everfore_bird.jpg" alt="에버포레 전체 조감도" style="width:100%;height:100%;object-fit:cover;display:block;">
+    <div style="grid-column:1/3;overflow:hidden;border-radius:6px;aspect-ratio:16/7;cursor:pointer;" onclick="openPopup('everfore_bird.jpg','전체 조감도')">
+      <img src="everfore_bird.jpg" alt="에버포레 전체 조감도" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s;">
     </div>
-    <div style="overflow:hidden;border-radius:6px;aspect-ratio:4/3;">
-      <img src="gallery1.png" alt="A1블록 조감도" style="width:100%;height:100%;object-fit:cover;display:block;">
+    <div style="overflow:hidden;border-radius:6px;aspect-ratio:4/3;cursor:pointer;" onclick="openPopup('gallery1.png','A1블록 조감도')">
+      <img src="gallery1.png" alt="A1블록 조감도" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s;">
     </div>
-    <div style="overflow:hidden;border-radius:6px;aspect-ratio:4/3;">
-      <img src="gallery2.png" alt="A2블록 조감도" style="width:100%;height:100%;object-fit:cover;display:block;">
+    <div style="overflow:hidden;border-radius:6px;aspect-ratio:4/3;cursor:pointer;" onclick="openPopup('gallery2.png','A2블록 조감도')">
+      <img src="gallery2.png" alt="A2블록 조감도" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s;">
     </div>
-    <div style="overflow:hidden;border-radius:6px;aspect-ratio:4/3;">
-      <img src="location.png" alt="A2블록 정면" style="width:100%;height:100%;object-fit:cover;display:block;">
+    <div style="overflow:hidden;border-radius:6px;aspect-ratio:4/3;cursor:pointer;" onclick="openPopup('location.png','A2블록 정면')">
+      <img src="location.png" alt="A2블록 정면" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s;">
     </div>
-    <div style="overflow:hidden;border-radius:6px;aspect-ratio:4/3;">
-      <img src="gallery4.png" alt="A1블록 외관" style="width:100%;height:100%;object-fit:cover;display:block;">
+    <div style="overflow:hidden;border-radius:6px;aspect-ratio:4/3;cursor:pointer;" onclick="openPopup('gallery4.png','A1블록 외관')">
+      <img src="gallery4.png" alt="A1블록 외관" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s;">
     </div>
-    <div style="overflow:hidden;border-radius:6px;aspect-ratio:4/3;">
-      <img src="gallery6.png" alt="A1블록 조감도2" style="width:100%;height:100%;object-fit:cover;display:block;">
+    <div style="overflow:hidden;border-radius:6px;aspect-ratio:4/3;cursor:pointer;" onclick="openPopup('gallery6.png','A1블록 조감도')">
+      <img src="gallery6.png" alt="A1블록 조감도2" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s;">
     </div>
-    <div style="overflow:hidden;border-radius:6px;aspect-ratio:4/3;">
-      <img src="gallery7.png" alt="A2블록 야경 조감도" style="width:100%;height:100%;object-fit:cover;display:block;">
+    <div style="overflow:hidden;border-radius:6px;aspect-ratio:4/3;cursor:pointer;" onclick="openPopup('gallery7.png','A2블록 야경 조감도')">
+      <img src="gallery7.png" alt="A2블록 야경 조감도" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s;">
     </div>
-    <div style="grid-column:1/3;overflow:hidden;border-radius:6px;">
-      <img src="gallery8.png" alt="단지 배치도" style="width:100%;display:block;object-fit:contain;">
+    <div style="grid-column:1/3;overflow:hidden;border-radius:6px;cursor:pointer;" onclick="openPopup('gallery8.png','단지 배치도')">
+      <img src="gallery8.png" alt="단지 배치도" style="width:60%;display:block;margin:0 auto;object-fit:contain;">
     </div>
   </div>
   <div class="gallery-caption">이미지 출처: DL이앤씨 · 경기주택도시공사</div>
@@ -333,19 +340,35 @@
 <section class="transport" id="transport">
   <div class="section-tag">TRANSPORT</div>
   <h2 class="section-title">교통 & 개발 호재</h2>
-
-  <div class="transport-grid">
-    <div class="transport-card"><div class="transport-title">인덕원역 / 평촌역 (4호선)</div><div class="transport-detail">현재 가장 가까운 지하철역. 단지 앞 버스 이용 시 환승 가능. 차량 이용 시 강남권 이동 매우 편리.</div><span class="transport-badge">현재 이용 가능</span></div>
-    <div class="transport-card"><div class="transport-title">인덕원~동탄 복선전철</div><div class="transport-detail">국토부 고시 완료 (제2026-19호). 인덕원역 환승으로 판교·동탄 직결 연결.</div><span class="transport-badge">개통 예정</span></div>
-    <div class="transport-card"><div class="transport-title">월곶~판교 복선전철</div><div class="transport-detail">국토부 고시 완료 (제2025-56호). 판교 테크노밸리 30분대 접근 가능.</div><span class="transport-badge">개통 예정</span></div>
-    <div class="transport-card"><div class="transport-title">GTX-C 노선</div><div class="transport-detail">국토부 고시 완료 (제2024-483호). 수원~삼성~청량리 초고속 연결.</div><span class="transport-badge">개통 예정</span></div>
-    <div class="transport-card"><div class="transport-title">안양매곡지구 개발</div><div class="transport-detail">단지 인근 신규 주거타운 조성 계획. 상권 및 생활 인프라 지속 확충 예정.</div><span class="transport-badge">계획 중</span></div>
-    <div class="transport-card"><div class="transport-title">제2경인고속도로 · 과천대로</div><div class="transport-detail">단지 앞 일동로에서 바로 진입 가능. 차량 이용 시 강남·과천 접근 수월.</div><span class="transport-badge">현재 이용 가능</span></div>
-  </div>
-  <div style="margin-top:2rem;display:flex;justify-content:center;">
-    <img src="gallery3.png" alt="단지 위치도" style="width:65%;border-radius:6px;display:block;">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:2.5rem;align-items:start;">
+    <div style="cursor:pointer;" onclick="openPopup('gallery3.png','단지 위치도')">
+      <img src="gallery3.png" alt="단지 위치도" style="width:100%;border-radius:6px;display:block;">
+    </div>
+    <div style="display:grid;grid-template-columns:1fr;gap:1rem;">
+      <div class="transport-card"><div class="transport-title">인덕원역 / 평촌역 (4호선)</div><div class="transport-detail">현재 가장 가까운 지하철역. 단지 앞 버스 이용 시 환승 가능.</div><span class="transport-badge">현재 이용 가능</span></div>
+      <div class="transport-card"><div class="transport-title">인덕원~동탄 복선전철</div><div class="transport-detail">국토부 고시 완료 (제2026-19호). 인덕원역 환승으로 판교·동탄 직결.</div><span class="transport-badge">개통 예정</span></div>
+      <div class="transport-card"><div class="transport-title">월곶~판교 복선전철</div><div class="transport-detail">국토부 고시 완료 (제2025-56호). 판교 테크노밸리 30분대.</div><span class="transport-badge">개통 예정</span></div>
+      <div class="transport-card"><div class="transport-title">GTX-C 노선</div><div class="transport-detail">국토부 고시 완료 (제2024-483호). 수원~삼성~청량리 초고속 연결.</div><span class="transport-badge">개통 예정</span></div>
+      <div class="transport-card"><div class="transport-title">안양매곡지구 개발</div><div class="transport-detail">단지 인근 신규 주거타운 조성 계획. 상권 및 생활 인프라 확충 예정.</div><span class="transport-badge">계획 중</span></div>
+      <div class="transport-card"><div class="transport-title">제2경인고속도로 · 과천대로</div><div class="transport-detail">단지 앞 일동로에서 바로 진입 가능. 강남·과천 접근 수월.</div><span class="transport-badge">현재 이용 가능</span></div>
+    </div>
   </div>
 </section>
+
+<script>
+function openPopup(src, caption) {
+  document.getElementById('popup-img').src = src;
+  document.getElementById('popup-caption').textContent = caption;
+  const p = document.getElementById('gallery-popup');
+  p.style.display = 'flex';
+}
+function closePopup() {
+  document.getElementById('gallery-popup').style.display = 'none';
+}
+document.getElementById('gallery-popup').addEventListener('click', function(e) {
+  if (e.target === this) closePopup();
+});
+</script>
 
 <section class="blocks" id="blocks">
   <div class="blocks-header">
