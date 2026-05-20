@@ -493,8 +493,9 @@ document.getElementById('gallery-popup').addEventListener('click', function(e) {
   <p class="section-desc">예비 이웃 간 소통과 협력으로 더 좋은 입주 환경을 만들어갑니다</p>
   <div class="community-links">
     <a href="board.html" class="community-link"><span class="icon">📋</span> 제안 게시판</a>
-    <a href="https://cafe.naver.com" class="community-link" target="_blank"><span class="icon">☕</span> 네이버 카페</a>
-    <a href="https://open.kakao.com/o/guJJ1Msi" class="community-link" target="_blank"><span class="icon">💬</span> 카카오 오픈채팅</a>
+    <a href="https://cafe.naver.com/anyangeverfore" class="community-link" target="_blank"><span class="icon">☕</span> 네이버 카페</a>
+    <a href="https://open.kakao.com/o/guJJ1Msi" class="community-link" target="_blank"><span class="icon">💬</span> 카카오 전체 오픈채팅</a>
+    <a href="https://open.kakao.com/o/gvhltRti" class="community-link" target="_blank"><span class="icon">💬</span> A2BL 오픈채팅</a>
     <a href="https://www.elife.co.kr/Posm_list01.action?commonMap.CD_BIZ_LND=230146" class="community-link" target="_blank"><span class="icon">🏢</span> 공식 홈페이지</a>
     <a href="https://piaolin11116.tistory.com/148" class="community-link" target="_blank"><span class="icon">🧮</span> 옵션 계산기</a>
     <a href="https://github.com/anyangeverfore" class="community-link" target="_blank"><span class="icon">🐙</span> GitHub</a>
@@ -570,7 +571,7 @@ document.getElementById('gallery-popup').addEventListener('click', function(e) {
 
     const sorted = [...bPosts].sort((a,b) =>
       bSort==='likes' ? (b.likes-a.likes)||(b.ts?.seconds-a.ts?.seconds) : (b.ts?.seconds-a.ts?.seconds)
-    ).slice(0, 5);
+    ).slice(0, 4);
 
     list.innerHTML = sorted.map(p => {
       const isLiked = liked[p.id]===uid;
