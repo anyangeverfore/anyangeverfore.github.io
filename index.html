@@ -324,7 +324,49 @@
   </script>
 </section>
 
-<!-- 갤러리 팝업 -->
+<section style="padding:6rem 3rem;background:var(--cream);" id="board">
+  <div class="section-tag">SUGGESTION BOARD</div>
+  <h2 class="section-title">제안 게시판</h2>
+  <p class="section-desc">예비 이웃 여러분의 의견을 자유롭게 남겨주세요. 공감이 많은 제안은 협의회 활동에 반영됩니다.</p>
+
+  <!-- 작성 폼 -->
+  <div style="background:var(--warm-white);border-radius:6px;padding:1.8rem;margin-top:2.5rem;margin-bottom:1.5rem;border:1px solid rgba(45,74,45,0.1);">
+    <div style="margin-bottom:.8rem;">
+      <input type="text" id="b-title" placeholder="제목을 입력하세요" maxlength="60"
+        style="width:100%;padding:.75rem 1rem;border:1px solid rgba(45,74,45,0.15);border-radius:3px;font-family:'Noto Sans KR',sans-serif;font-size:.86rem;color:var(--text);background:var(--cream);outline:none;">
+    </div>
+    <div style="margin-bottom:.8rem;">
+      <textarea id="b-body" placeholder="내용을 입력하세요 (최대 500자)" maxlength="500"
+        style="width:100%;padding:.75rem 1rem;border:1px solid rgba(45,74,45,0.15);border-radius:3px;font-family:'Noto Sans KR',sans-serif;font-size:.86rem;color:var(--text);background:var(--cream);outline:none;resize:vertical;min-height:90px;"></textarea>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <span id="b-count" style="font-size:.72rem;color:var(--text-muted);">0 / 500</span>
+      <button id="b-submit" onclick="boardSubmit()"
+        style="padding:.7rem 1.6rem;background:var(--forest);color:#fff;border:none;border-radius:3px;font-size:.82rem;letter-spacing:.07em;cursor:pointer;font-family:'Noto Sans KR',sans-serif;">등록하기</button>
+    </div>
+  </div>
+
+  <!-- 정렬 -->
+  <div style="display:flex;gap:.6rem;margin-bottom:1.2rem;align-items:center;">
+    <span style="font-size:.75rem;color:var(--text-muted);">정렬</span>
+    <button id="b-sort-likes" onclick="boardSetSort('likes')"
+      style="padding:.3rem .8rem;border:1px solid var(--forest);border-radius:2px;background:var(--forest);color:#fff;font-size:.74rem;cursor:pointer;font-family:'Noto Sans KR',sans-serif;">공감순</button>
+    <button id="b-sort-recent" onclick="boardSetSort('recent')"
+      style="padding:.3rem .8rem;border:1px solid rgba(45,74,45,0.2);border-radius:2px;background:none;color:var(--text-muted);font-size:.74rem;cursor:pointer;font-family:'Noto Sans KR',sans-serif;">최신순</button>
+  </div>
+
+  <!-- 목록 -->
+  <div id="b-list" style="display:flex;flex-direction:column;gap:.8rem;">
+    <div style="text-align:center;padding:2rem;color:var(--text-muted);font-size:.85rem;">
+      <div style="width:24px;height:24px;border:2px solid rgba(45,74,45,0.15);border-top-color:var(--forest);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto .8rem;"></div>
+      불러오는 중...
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:1.5rem;">
+    <a href="board.html" style="font-size:.78rem;color:var(--text-muted);letter-spacing:.07em;text-decoration:none;border-bottom:1px solid rgba(45,74,45,0.2);padding-bottom:2px;">전체 보기 →</a>
+  </div>
+</section>
 <div id="gallery-popup" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:1000;align-items:center;justify-content:center;flex-direction:column;">
   <button onclick="closePopup()" style="position:absolute;top:1.5rem;right:2rem;background:none;border:none;color:#fff;font-size:2rem;cursor:pointer;line-height:1;">×</button>
   <img id="popup-img" src="" alt="" style="max-width:90vw;max-height:85vh;object-fit:contain;border-radius:4px;">
@@ -473,5 +515,110 @@ document.getElementById('gallery-popup').addEventListener('click', function(e) {
   </div>
 </footer>
 
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+  import { getFirestore, collection, addDoc, doc, updateDoc, increment, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+  const app = initializeApp({
+    apiKey: "AIzaSyAb4FqHnNkqt0__GqkIOVRVhLeDlmrQUYg",
+    authDomain: "everfore-board.firebaseapp.com",
+    projectId: "everfore-board",
+    storageBucket: "everfore-board.firebasestorage.app",
+    messagingSenderId: "1051251278410",
+    appId: "1:1051251278410:web:b67eb84a5007c20d9e5cb3"
+  });
+  const db = getFirestore(app);
+  const postsRef = collection(db, 'posts');
+
+  let bSort = 'likes';
+  let bPosts = [];
+
+  function getUID() {
+    let uid = localStorage.getItem('everfore_uid');
+    if (!uid) { uid = Math.random().toString(36).slice(2)+Date.now().toString(36); localStorage.setItem('everfore_uid',uid); }
+    return uid;
+  }
+  function getLiked() { try { return JSON.parse(localStorage.getItem('everfore_liked'))||{}; } catch { return {}; } }
+  function saveLiked(l) { localStorage.setItem('everfore_liked',JSON.stringify(l)); }
+
+  function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function formatDate(ts) {
+    if(!ts) return '';
+    const d = ts.toDate ? ts.toDate() : new Date(ts);
+    return `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;
+  }
+
+  window.boardSetSort = function(mode) {
+    bSort = mode;
+    document.getElementById('b-sort-likes').style.background = mode==='likes' ? 'var(--forest)' : 'none';
+    document.getElementById('b-sort-likes').style.color = mode==='likes' ? '#fff' : 'var(--text-muted)';
+    document.getElementById('b-sort-recent').style.background = mode==='recent' ? 'var(--forest)' : 'none';
+    document.getElementById('b-sort-recent').style.color = mode==='recent' ? '#fff' : 'var(--text-muted)';
+    renderBoard();
+  }
+
+  function renderBoard() {
+    const liked = getLiked();
+    const uid = getUID();
+    const list = document.getElementById('b-list');
+    if (!list) return;
+
+    if (bPosts.length === 0) {
+      list.innerHTML = `<div style="text-align:center;padding:2.5rem;color:var(--text-muted);font-size:.85rem;">아직 제안이 없어요. 첫 번째 제안을 남겨보세요!</div>`;
+      return;
+    }
+
+    const sorted = [...bPosts].sort((a,b) =>
+      bSort==='likes' ? (b.likes-a.likes)||(b.ts?.seconds-a.ts?.seconds) : (b.ts?.seconds-a.ts?.seconds)
+    ).slice(0, 5);
+
+    list.innerHTML = sorted.map(p => {
+      const isLiked = liked[p.id]===uid;
+      return `<div style="background:var(--warm-white);border:1px solid rgba(45,74,45,0.1);border-radius:6px;padding:1.2rem 1.5rem;">
+        <div style="font-size:.92rem;font-weight:500;color:var(--text);margin-bottom:.5rem;">${escHtml(p.title)}</div>
+        <div style="font-size:.8rem;color:var(--text-muted);line-height:1.75;margin-bottom:.8rem;white-space:pre-wrap;">${escHtml(p.body)}</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:.68rem;color:var(--text-muted);">${formatDate(p.ts)}</span>
+          <button onclick="boardLike('${p.id}')" ${isLiked?'disabled':''} style="display:flex;align-items:center;gap:.3rem;padding:.3rem .8rem;border:1px solid ${isLiked?'var(--forest)':'rgba(45,74,45,0.2)'};border-radius:2px;background:${isLiked?'var(--forest)':'none'};color:${isLiked?'#fff':'var(--forest-mid)'};font-size:.75rem;cursor:${isLiked?'not-allowed':'pointer'};font-family:'Noto Sans KR',sans-serif;">
+            ${isLiked?'♥':'♡'} 공감 ${p.likes||0}
+          </button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  onSnapshot(postsRef, snap => {
+    bPosts = snap.docs.map(d => ({id:d.id,...d.data()}));
+    renderBoard();
+  });
+
+  window.boardSubmit = async function() {
+    const title = document.getElementById('b-title').value.trim();
+    const body = document.getElementById('b-body').value.trim();
+    if (!title || !body) return;
+    const btn = document.getElementById('b-submit');
+    btn.disabled = true; btn.textContent = '등록 중...';
+    try {
+      await addDoc(postsRef, {title, body, likes:0, ts:new Date()});
+      document.getElementById('b-title').value = '';
+      document.getElementById('b-body').value = '';
+      document.getElementById('b-count').textContent = '0 / 500';
+    } catch(e) { alert('등록에 실패했습니다'); }
+    btn.disabled = false; btn.textContent = '등록하기';
+  }
+
+  window.boardLike = async function(id) {
+    const uid = getUID();
+    const liked = getLiked();
+    if (liked[id]===uid) return;
+    liked[id]=uid; saveLiked(liked);
+    try { await updateDoc(doc(db,'posts',id),{likes:increment(1)}); }
+    catch { delete liked[id]; saveLiked(liked); }
+  }
+
+  document.getElementById('b-body').addEventListener('input', function() {
+    document.getElementById('b-count').textContent = `${this.value.length} / 500`;
+  });
+</script>
 </body>
 </html>
