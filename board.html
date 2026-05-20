@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>제안 게시판 — 안양 에버포레 입예협</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #2d4a2d; --forest-mid: #3d6b3d; --forest-light: #5a8f5a;
+    --cream: #f8f5ef; --warm-white: #fdfcf9;
+    --text: #1e2820; --text-muted: #6b7a6b; --gold: #b89a5a;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Noto Sans KR',sans-serif; background:var(--warm-white); color:var(--text); }
+
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:1.2rem 3rem; background:rgba(253,252,249,0.93);
+    backdrop-filter:blur(12px); border-bottom:1px solid rgba(45,74,45,0.1);
+  }
+  .nav-logo { font-family:'Noto Serif KR',serif; font-size:1rem; font-weight:600; color:var(--forest); text-decoration:none; }
+  .nav-logo span { color:var(--gold); }
+  .nav-back { font-size:.82rem; color:var(--text-muted); text-decoration:none; letter-spacing:.06em; transition:color .2s; }
+  .nav-back:hover { color:var(--forest); }
+
+  .hero {
+    padding:8rem 3rem 4rem; position:relative; overflow:hidden;
+    background: linear-gradient(160deg, #1a2e1a 0%, #2d4a2d 45%, #3d6b3d 100%);
+  }
+  .hero-content { position:relative; z-index:1; max-width:700px; }
+  .hero-tag { font-size:.7rem; letter-spacing:.18em; color:var(--gold); margin-bottom:1rem; }
+  .hero h1 { font-family:'Noto Serif KR',serif; font-size:clamp(1.8rem,4vw,2.8rem); font-weight:300; color:#fff; line-height:1.3; }
+  .hero p { margin-top:1rem; font-size:.88rem; color:rgba(255,255,255,.5); line-height:1.8; }
+
+  main { max-width:900px; margin:0 auto; padding:4rem 3rem; }
+
+  .write-box {
+    background:var(--cream); border-radius:6px; padding:2rem; margin-bottom:3rem;
+    border:1px solid rgba(45,74,45,0.1);
+  }
+  .write-box h2 { font-family:'Noto Serif KR',serif; font-size:1.1rem; font-weight:400; color:var(--forest); margin-bottom:1.5rem; }
+  .form-group { margin-bottom:1rem; }
+  .form-group input, .form-group textarea {
+    width:100%; padding:.8rem 1rem; border:1px solid rgba(45,74,45,0.15);
+    border-radius:3px; font-family:'Noto Sans KR',sans-serif; font-size:.86rem;
+    color:var(--text); background:var(--warm-white); outline:none; transition:border-color .2s; resize:vertical;
+  }
+  .form-group input:focus, .form-group textarea:focus { border-color:var(--forest-light); }
+  .form-group textarea { min-height:100px; }
+  .form-footer { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; }
+  .char-count { font-size:.72rem; color:var(--text-muted); }
+  .btn-submit {
+    padding:.75rem 1.8rem; background:var(--forest); color:#fff;
+    border:none; border-radius:3px; font-size:.82rem; letter-spacing:.07em;
+    cursor:pointer; transition:background .2s;
+  }
+  .btn-submit:hover { background:var(--forest-mid); }
+  .btn-submit:disabled { opacity:.5; cursor:not-allowed; }
+
+  .sort-bar { display:flex; gap:.6rem; margin-bottom:1.5rem; align-items:center; }
+  .sort-label { font-size:.75rem; color:var(--text-muted); }
+  .sort-btn {
+    padding:.35rem .9rem; border:1px solid rgba(45,74,45,0.15); border-radius:2px;
+    background:none; font-size:.75rem; color:var(--text-muted); cursor:pointer;
+    transition:all .2s; font-family:'Noto Sans KR',sans-serif;
+  }
+  .sort-btn.active { background:var(--forest); color:#fff; border-color:var(--forest); }
+
+  .post-list { display:flex; flex-direction:column; gap:1rem; }
+  .post-card {
+    background:var(--warm-white); border:1px solid rgba(45,74,45,0.1);
+    border-radius:6px; padding:1.5rem 1.8rem; transition:border-color .2s, transform .2s;
+  }
+  .post-card:hover { border-color:rgba(45,74,45,0.25); transform:translateY(-2px); }
+  .post-title { font-size:.95rem; font-weight:500; color:var(--text); margin-bottom:.6rem; }
+  .post-body { font-size:.82rem; color:var(--text-muted); line-height:1.8; margin-bottom:1rem; white-space:pre-wrap; word-break:break-word; }
+  .post-footer { display:flex; justify-content:space-between; align-items:center; }
+  .post-meta { font-size:.7rem; color:var(--text-muted); }
+  .like-btn {
+    display:flex; align-items:center; gap:.4rem;
+    padding:.4rem .9rem; border:1px solid rgba(45,74,45,0.2); border-radius:2px;
+    background:none; font-size:.78rem; color:var(--forest-mid); cursor:pointer;
+    transition:all .2s; font-family:'Noto Sans KR',sans-serif;
+  }
+  .like-btn:hover:not(:disabled) { background:rgba(45,74,45,0.06); }
+  .like-btn.liked { background:var(--forest); color:#fff; border-color:var(--forest); }
+  .like-btn:disabled { opacity:.7; cursor:not-allowed; }
+
+  .loading { text-align:center; padding:3rem 0; color:var(--text-muted); font-size:.85rem; }
+  .loading-spinner { width:28px; height:28px; border:2px solid rgba(45,74,45,0.15); border-top-color:var(--forest); border-radius:50%; animation:spin .8s linear infinite; margin:0 auto 1rem; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  .empty { text-align:center; padding:4rem 0; color:var(--text-muted); font-size:.88rem; line-height:2; }
+  .empty-icon { font-size:2.5rem; display:block; margin-bottom:1rem; opacity:.4; }
+
+  .toast {
+    position:fixed; bottom:2rem; left:50%; transform:translateX(-50%) translateY(10px);
+    background:var(--forest); color:#fff; padding:.7rem 1.5rem; border-radius:3px;
+    font-size:.8rem; opacity:0; transition:all .3s; pointer-events:none; z-index:999; white-space:nowrap;
+  }
+  .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+  @media(max-width:768px) {
+    nav { padding:1rem 1.5rem; }
+    .hero { padding:6rem 1.5rem 3rem; }
+    main { padding:2.5rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">안양 에버포레 <span>입예협</span></a>
+  <a href="index.html" class="nav-back">← 메인으로</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-tag">SUGGESTION BOARD</div>
+    <h1>제안 게시판</h1>
+    <p>입주예정자 여러분의 의견과 제안을 자유롭게 남겨주세요.<br>공감이 많은 제안은 협의회 활동에 반영됩니다.</p>
+  </div>
+</div>
+
+<main>
+  <div class="write-box">
+    <h2>제안 작성</h2>
+    <div class="form-group">
+      <input type="text" id="input-title" placeholder="제목을 입력하세요" maxlength="60">
+    </div>
+    <div class="form-group">
+      <textarea id="input-body" placeholder="내용을 입력하세요 (최대 500자)" maxlength="500"></textarea>
+    </div>
+    <div class="form-footer">
+      <span class="char-count" id="char-count">0 / 500</span>
+      <button class="btn-submit" id="btn-submit" onclick="submitPost()">등록하기</button>
+    </div>
+  </div>
+
+  <div class="sort-bar">
+    <span class="sort-label">정렬</span>
+    <button class="sort-btn active" id="sort-likes" onclick="setSort('likes')">공감순</button>
+    <button class="sort-btn" id="sort-recent" onclick="setSort('recent')">최신순</button>
+  </div>
+
+  <div class="post-list" id="post-list">
+    <div class="loading"><div class="loading-spinner"></div>불러오는 중...</div>
+  </div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+  import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, increment, query, orderBy, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAb4FqHnNkqt0__GqkIOVRVhLeDlmrQUYg",
+    authDomain: "everfore-board.firebaseapp.com",
+    projectId: "everfore-board",
+    storageBucket: "everfore-board.firebasestorage.app",
+    messagingSenderId: "1051251278410",
+    appId: "1:1051251278410:web:b67eb84a5007c20d9e5cb3"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const postsRef = collection(db, 'posts');
+
+  let sortMode = 'likes';
+  let allPosts = [];
+
+  function getUID() {
+    let uid = localStorage.getItem('everfore_uid');
+    if (!uid) {
+      uid = Math.random().toString(36).slice(2) + Date.now().toString(36);
+      localStorage.setItem('everfore_uid', uid);
+    }
+    return uid;
+  }
+
+  function getLiked() {
+    try { return JSON.parse(localStorage.getItem('everfore_liked')) || {}; } catch { return {}; }
+  }
+
+  function saveLiked(liked) {
+    localStorage.setItem('everfore_liked', JSON.stringify(liked));
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  function formatDate(ts) {
+    if (!ts) return '';
+    const d = ts.toDate ? ts.toDate() : new Date(ts);
+    return `${d.getFullYear()}. ${String(d.getMonth()+1).padStart(2,'0')}. ${String(d.getDate()).padStart(2,'0')}`;
+  }
+
+  function escHtml(str) {
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function setSort(mode) {
+    sortMode = mode;
+    document.getElementById('sort-likes').classList.toggle('active', mode === 'likes');
+    document.getElementById('sort-recent').classList.toggle('active', mode === 'recent');
+    renderPosts();
+  }
+  window.setSort = setSort;
+
+  function renderPosts() {
+    const liked = getLiked();
+    const uid = getUID();
+    const list = document.getElementById('post-list');
+
+    if (allPosts.length === 0) {
+      list.innerHTML = `<div class="empty"><span class="empty-icon">💬</span>아직 제안이 없어요.<br>첫 번째 제안을 남겨보세요!</div>`;
+      return;
+    }
+
+    const sorted = [...allPosts].sort((a, b) =>
+      sortMode === 'likes' ? (b.likes - a.likes) || (b.ts?.seconds - a.ts?.seconds) : (b.ts?.seconds - a.ts?.seconds)
+    );
+
+    list.innerHTML = sorted.map(p => {
+      const isLiked = liked[p.id] === uid;
+      return `
+        <div class="post-card">
+          <div class="post-title">${escHtml(p.title)}</div>
+          <div class="post-body">${escHtml(p.body)}</div>
+          <div class="post-footer">
+            <span class="post-meta">${formatDate(p.ts)}</span>
+            <button class="like-btn ${isLiked ? 'liked' : ''}" onclick="toggleLike('${p.id}')" ${isLiked ? 'disabled' : ''}>
+              ${isLiked ? '♥' : '♡'} 공감 ${p.likes || 0}
+            </button>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  // 실시간 리스닝
+  onSnapshot(postsRef, (snapshot) => {
+    allPosts = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderPosts();
+  });
+
+  async function submitPost() {
+    const title = document.getElementById('input-title').value.trim();
+    const body = document.getElementById('input-body').value.trim();
+    if (!title) { showToast('제목을 입력해주세요'); return; }
+    if (!body) { showToast('내용을 입력해주세요'); return; }
+
+    const btn = document.getElementById('btn-submit');
+    btn.disabled = true;
+    btn.textContent = '등록 중...';
+
+    try {
+      await addDoc(postsRef, { title, body, likes: 0, ts: new Date() });
+      document.getElementById('input-title').value = '';
+      document.getElementById('input-body').value = '';
+      document.getElementById('char-count').textContent = '0 / 500';
+      showToast('제안이 등록되었습니다 ✓');
+    } catch(e) {
+      showToast('등록에 실패했습니다. 다시 시도해주세요');
+    }
+
+    btn.disabled = false;
+    btn.textContent = '등록하기';
+  }
+  window.submitPost = submitPost;
+
+  async function toggleLike(id) {
+    const uid = getUID();
+    const liked = getLiked();
+    if (liked[id] === uid) return;
+
+    liked[id] = uid;
+    saveLiked(liked);
+
+    try {
+      await updateDoc(doc(db, 'posts', id), { likes: increment(1) });
+    } catch {
+      delete liked[id];
+      saveLiked(liked);
+      showToast('오류가 발생했습니다');
+    }
+  }
+  window.toggleLike = toggleLike;
+
+  document.getElementById('input-body').addEventListener('input', function() {
+    document.getElementById('char-count').textContent = `${this.value.length} / 500`;
+  });
+
+  document.getElementById('input-title').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') e.preventDefault();
+  });
+</script>
+</body>
+</html>
