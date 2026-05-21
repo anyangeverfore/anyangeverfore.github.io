@@ -192,20 +192,45 @@
 
   @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
 
+  .doc-row {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:1rem 1.4rem; background:var(--cream);
+    border:1px solid rgba(45,74,45,0.1); border-radius:4px;
+    text-decoration:none; transition:border-color .2s, transform .2s;
+  }
+  .doc-row:hover { border-color:var(--forest-light); transform:translateX(4px); }
+  .doc-row-left { display:flex; align-items:center; gap:.9rem; }
+  .doc-badge {
+    width:34px; height:34px; background:var(--forest); border-radius:3px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:.65rem; color:#fff; font-weight:700; flex-shrink:0;
+  }
+  .doc-info { display:flex; flex-direction:column; }
+  .doc-title { font-size:.85rem; font-weight:500; color:var(--text); }
+  .doc-date { font-size:.72rem; color:var(--text-muted); margin-top:.15rem; }
+  .doc-arrow { font-size:.9rem; color:var(--forest-mid); flex-shrink:0; }
+
   @media(max-width:768px){
     nav { padding:1rem 1.5rem; }
-    nav ul { gap:1rem; }
-    nav ul li:nth-child(n+4) { display:none; }
+    nav ul { gap:.8rem; }
+    nav ul li:nth-child(n+5) { display:none; }
     .hero { padding:0 1.5rem 4rem; }
+    .hero h1 { font-size:2rem; }
+    .hero-cta { flex-direction:column; }
+    .btn-primary, .btn-outline { text-align:center; justify-content:center; }
     .stats { grid-template-columns:repeat(2,1fr); }
     .stat-item:nth-child(2){ border-right:none; }
-    section { padding:4rem 1.5rem; }
+    .stat-item:nth-child(3){ border-right:none; }
+    section { padding:3.5rem 1.5rem; }
     .blocks-grid { grid-template-columns:1fr; }
     .about-inner { grid-template-columns:1fr; gap:2rem; }
-    .about-visual { height:240px; }
+    .about-visual { height:220px; }
     .news-grid { grid-template-columns:1fr; }
     .transport-grid { grid-template-columns:1fr; }
+    .community-links { flex-direction:column; align-items:stretch; }
+    .community-link { justify-content:center; }
     footer { flex-direction:column; align-items:flex-start; }
+    .footer-links { flex-wrap:wrap; gap:.8rem; }
   }
 </style>
 </head>
@@ -396,81 +421,74 @@
   <div class="section-tag">DOCUMENTS</div>
   <h2 class="section-title">자료실</h2>
   <p class="section-desc">입주예정자에게 필요한 공식 문서를 모아두었습니다.</p>
-  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;margin-top:2rem;">
-    <a href="https://www.elife.co.kr/jsp/front/po/230146/static/pdf/230146_notice_A2BL_260519.pdf" target="_blank"
-      style="display:flex;align-items:center;gap:.9rem;padding:1.1rem 1.4rem;background:var(--cream);border:1px solid rgba(45,74,45,0.1);border-radius:4px;text-decoration:none;transition:border-color .2s,transform .2s;"
-      onmouseover="this.style.borderColor='var(--forest-light)';this.style.transform='translateY(-2px)'"
-      onmouseout="this.style.borderColor='rgba(45,74,45,0.1)';this.style.transform='none'">
-      <div style="width:34px;height:34px;background:var(--forest);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:.65rem;color:#fff;font-weight:700;flex-shrink:0;">PDF</div>
-      <div><div style="font-size:.85rem;font-weight:500;color:var(--text);">서류제출 안내문 (A2BL)</div><div style="font-size:.72rem;color:var(--text-muted);margin-top:.15rem;">2026.05.19 · 당첨자 자격검증 서류</div></div>
+
+  <div style="display:flex;flex-direction:column;gap:.6rem;margin-top:2rem;" id="docs-list">
+    <!-- 최신 4개 기본 표시 -->
+    <a href="https://www.elife.co.kr/jsp/front/po/230146/static/pdf/230146_notice_A2BL_260519.pdf" target="_blank" class="doc-row">
+      <div class="doc-row-left"><div class="doc-badge">PDF</div><div class="doc-info"><span class="doc-title">서류제출 안내문 (A2BL)</span><span class="doc-date">2026.05.19 · 당첨자 자격검증 서류</span></div></div>
+      <span class="doc-arrow">↓</span>
     </a>
-    <a href="https://www.elife.co.kr/jsp/front/po/230146/static/pdf/230146_notice_A1BL_260519.pdf" target="_blank"
-      style="display:flex;align-items:center;gap:.9rem;padding:1.1rem 1.4rem;background:var(--cream);border:1px solid rgba(45,74,45,0.1);border-radius:4px;text-decoration:none;transition:border-color .2s,transform .2s;"
-      onmouseover="this.style.borderColor='var(--forest-light)';this.style.transform='translateY(-2px)'"
-      onmouseout="this.style.borderColor='rgba(45,74,45,0.1)';this.style.transform='none'">
-      <div style="width:34px;height:34px;background:var(--forest);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:.65rem;color:#fff;font-weight:700;flex-shrink:0;">PDF</div>
-      <div><div style="font-size:.85rem;font-weight:500;color:var(--text);">서류제출 안내문 (A1BL)</div><div style="font-size:.72rem;color:var(--text-muted);margin-top:.15rem;">2026.05.19 · 당첨자 자격검증 서류</div></div>
+    <a href="https://www.elife.co.kr/jsp/front/po/230146/static/pdf/230146_notice_A1BL_260519.pdf" target="_blank" class="doc-row">
+      <div class="doc-row-left"><div class="doc-badge">PDF</div><div class="doc-info"><span class="doc-title">서류제출 안내문 (A1BL)</span><span class="doc-date">2026.05.19 · 당첨자 자격검증 서류</span></div></div>
+      <span class="doc-arrow">↓</span>
     </a>
-    <a href="https://www.elife.co.kr/jsp/front/po/230146/static/pdf/230146_notice_01_260519.pdf" target="_blank"
-      style="display:flex;align-items:center;gap:.9rem;padding:1.1rem 1.4rem;background:var(--cream);border:1px solid rgba(45,74,45,0.1);border-radius:4px;text-decoration:none;transition:border-color .2s,transform .2s;"
-      onmouseover="this.style.borderColor='var(--forest-light)';this.style.transform='translateY(-2px)'"
-      onmouseout="this.style.borderColor='rgba(45,74,45,0.1)';this.style.transform='none'">
-      <div style="width:34px;height:34px;background:var(--forest);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:.65rem;color:#fff;font-weight:700;flex-shrink:0;">PDF</div>
-      <div><div style="font-size:.85rem;font-weight:500;color:var(--text);">개인정보 수집·이용·제공 동의서</div><div style="font-size:.72rem;color:var(--text-muted);margin-top:.15rem;">2026.05.19 · 서류 제출 시 필요</div></div>
+    <a href="https://www.elife.co.kr/jsp/front/po/230146/static/pdf/230146_notice_01_260519.pdf" target="_blank" class="doc-row">
+      <div class="doc-row-left"><div class="doc-badge">PDF</div><div class="doc-info"><span class="doc-title">개인정보 수집·이용·제공 동의서</span><span class="doc-date">2026.05.19 · 서류 제출 시 필요</span></div></div>
+      <span class="doc-arrow">↓</span>
     </a>
-    <a href="https://www.elife.co.kr/jsp/front/po/230146/static/pdf/230146_notice_02_260519.pdf" target="_blank"
-      style="display:flex;align-items:center;gap:.9rem;padding:1.1rem 1.4rem;background:var(--cream);border:1px solid rgba(45,74,45,0.1);border-radius:4px;text-decoration:none;transition:border-color .2s,transform .2s;"
-      onmouseover="this.style.borderColor='var(--forest-light)';this.style.transform='translateY(-2px)'"
-      onmouseout="this.style.borderColor='rgba(45,74,45,0.1)';this.style.transform='none'">
-      <div style="width:34px;height:34px;background:var(--forest);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:.65rem;color:#fff;font-weight:700;flex-shrink:0;">PDF</div>
-      <div><div style="font-size:.85rem;font-weight:500;color:var(--text);">위임장</div><div style="font-size:.72rem;color:var(--text-muted);margin-top:.15rem;">2026.05.19 · 대리인 서류 제출 시</div></div>
-    </a>
-    <a href="https://www.elife.co.kr/jsp/front/po/230146/static/pdf/230146_notice_01_260501.pdf" target="_blank"
-      style="display:flex;align-items:center;gap:.9rem;padding:1.1rem 1.4rem;background:var(--cream);border:1px solid rgba(45,74,45,0.1);border-radius:4px;text-decoration:none;transition:border-color .2s,transform .2s;"
-      onmouseover="this.style.borderColor='var(--forest-light)';this.style.transform='translateY(-2px)'"
-      onmouseout="this.style.borderColor='rgba(45,74,45,0.1)';this.style.transform='none'">
-      <div style="width:34px;height:34px;background:var(--forest);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:.65rem;color:#fff;font-weight:700;flex-shrink:0;">PDF</div>
-      <div><div style="font-size:.85rem;font-weight:500;color:var(--text);">공급안내문</div><div style="font-size:.72rem;color:var(--text-muted);margin-top:.15rem;">2026.05.01 · A1·A2블록 공급 전반</div></div>
-    </a>
-    <a href="https://www.elife.co.kr/jsp/front/po/230146/static/pdf/230146_notice_02_260501.pdf" target="_blank"
-      style="display:flex;align-items:center;gap:.9rem;padding:1.1rem 1.4rem;background:var(--cream);border:1px solid rgba(45,74,45,0.1);border-radius:4px;text-decoration:none;transition:border-color .2s,transform .2s;"
-      onmouseover="this.style.borderColor='var(--forest-light)';this.style.transform='translateY(-2px)'"
-      onmouseout="this.style.borderColor='rgba(45,74,45,0.1)';this.style.transform='none'">
-      <div style="width:34px;height:34px;background:var(--forest);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:.65rem;color:#fff;font-weight:700;flex-shrink:0;">PDF</div>
-      <div><div style="font-size:.85rem;font-weight:500;color:var(--text);">공급가격표</div><div style="font-size:.72rem;color:var(--text-muted);margin-top:.15rem;">2026.05.01 · 타입별 분양가 상세</div></div>
-    </a>
-    <a href="https://www.elife.co.kr/jsp/front/po/230146/static/pdf/230146_A2BL_260429.pdf" target="_blank"
-      style="display:flex;align-items:center;gap:.9rem;padding:1.1rem 1.4rem;background:var(--cream);border:1px solid rgba(45,74,45,0.1);border-radius:4px;text-decoration:none;transition:border-color .2s,transform .2s;"
-      onmouseover="this.style.borderColor='var(--forest-light)';this.style.transform='translateY(-2px)'"
-      onmouseout="this.style.borderColor='rgba(45,74,45,0.1)';this.style.transform='none'">
-      <div style="width:34px;height:34px;background:var(--forest);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:.65rem;color:#fff;font-weight:700;flex-shrink:0;">PDF</div>
-      <div><div style="font-size:.85rem;font-weight:500;color:var(--text);">모집공고 전문 (A2BL)</div><div style="font-size:.72rem;color:var(--text-muted);margin-top:.15rem;">2026.04.29 · 84㎡ 전체 공고</div></div>
-    </a>
-    <a href="https://www.elife.co.kr/jsp/front/po/230146/static/pdf/230146_A2BL_short_260429.pdf" target="_blank"
-      style="display:flex;align-items:center;gap:.9rem;padding:1.1rem 1.4rem;background:var(--cream);border:1px solid rgba(45,74,45,0.1);border-radius:4px;text-decoration:none;transition:border-color .2s,transform .2s;"
-      onmouseover="this.style.borderColor='var(--forest-light)';this.style.transform='translateY(-2px)'"
-      onmouseout="this.style.borderColor='rgba(45,74,45,0.1)';this.style.transform='none'">
-      <div style="width:34px;height:34px;background:var(--forest);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:.65rem;color:#fff;font-weight:700;flex-shrink:0;">PDF</div>
-      <div><div style="font-size:.85rem;font-weight:500;color:var(--text);">모집공고 축약 (A2BL)</div><div style="font-size:.72rem;color:var(--text-muted);margin-top:.15rem;">2026.04.29 · 84㎡ 요약본</div></div>
-    </a>
-    <a href="https://www.elife.co.kr/jsp/front/po/230146/static/pdf/230146_A1BL_260429.pdf" target="_blank"
-      style="display:flex;align-items:center;gap:.9rem;padding:1.1rem 1.4rem;background:var(--cream);border:1px solid rgba(45,74,45,0.1);border-radius:4px;text-decoration:none;transition:border-color .2s,transform .2s;"
-      onmouseover="this.style.borderColor='var(--forest-light)';this.style.transform='translateY(-2px)'"
-      onmouseout="this.style.borderColor='rgba(45,74,45,0.1)';this.style.transform='none'">
-      <div style="width:34px;height:34px;background:var(--forest);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:.65rem;color:#fff;font-weight:700;flex-shrink:0;">PDF</div>
-      <div><div style="font-size:.85rem;font-weight:500;color:var(--text);">모집공고 전문 (A1BL)</div><div style="font-size:.72rem;color:var(--text-muted);margin-top:.15rem;">2026.04.29 · 95㎡ 전체 공고</div></div>
-    </a>
-    <a href="https://www.elife.co.kr/jsp/front/po/230146/static/pdf/230146_A1BL_short_260429.pdf" target="_blank"
-      style="display:flex;align-items:center;gap:.9rem;padding:1.1rem 1.4rem;background:var(--cream);border:1px solid rgba(45,74,45,0.1);border-radius:4px;text-decoration:none;transition:border-color .2s,transform .2s;"
-      onmouseover="this.style.borderColor='var(--forest-light)';this.style.transform='translateY(-2px)'"
-      onmouseout="this.style.borderColor='rgba(45,74,45,0.1)';this.style.transform='none'">
-      <div style="width:34px;height:34px;background:var(--forest);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:.65rem;color:#fff;font-weight:700;flex-shrink:0;">PDF</div>
-      <div><div style="font-size:.85rem;font-weight:500;color:var(--text);">모집공고 축약 (A1BL)</div><div style="font-size:.72rem;color:var(--text-muted);margin-top:.15rem;">2026.04.29 · 95㎡ 요약본</div></div>
+    <a href="https://www.elife.co.kr/jsp/front/po/230146/static/pdf/230146_notice_02_260519.pdf" target="_blank" class="doc-row">
+      <div class="doc-row-left"><div class="doc-badge">PDF</div><div class="doc-info"><span class="doc-title">위임장</span><span class="doc-date">2026.05.19 · 대리인 서류 제출 시</span></div></div>
+      <span class="doc-arrow">↓</span>
     </a>
   </div>
-  <div style="text-align:center;margin-top:1.5rem;">
-    <a href="docs.html" style="font-size:.78rem;color:var(--text-muted);letter-spacing:.07em;text-decoration:none;border-bottom:1px solid rgba(45,74,45,0.2);padding-bottom:2px;">자료실 전체 보기 →</a>
+
+  <!-- 더보기 -->
+  <div id="docs-more" style="display:none;flex-direction:column;gap:.6rem;margin-top:.6rem;">
+    <a href="https://www.elife.co.kr/jsp/front/po/230146/static/pdf/230146_notice_01_260501.pdf" target="_blank" class="doc-row">
+      <div class="doc-row-left"><div class="doc-badge">PDF</div><div class="doc-info"><span class="doc-title">공급안내문</span><span class="doc-date">2026.05.01 · A1·A2블록 공급 전반</span></div></div>
+      <span class="doc-arrow">↓</span>
+    </a>
+    <a href="https://www.elife.co.kr/jsp/front/po/230146/static/pdf/230146_notice_02_260501.pdf" target="_blank" class="doc-row">
+      <div class="doc-row-left"><div class="doc-badge">PDF</div><div class="doc-info"><span class="doc-title">공급가격표</span><span class="doc-date">2026.05.01 · 타입별 분양가 상세</span></div></div>
+      <span class="doc-arrow">↓</span>
+    </a>
+    <a href="https://www.elife.co.kr/jsp/front/po/230146/static/pdf/230146_A2BL_260429.pdf" target="_blank" class="doc-row">
+      <div class="doc-row-left"><div class="doc-badge">PDF</div><div class="doc-info"><span class="doc-title">모집공고 전문 (A2BL)</span><span class="doc-date">2026.04.29 · 84㎡ 전체 공고</span></div></div>
+      <span class="doc-arrow">↓</span>
+    </a>
+    <a href="https://www.elife.co.kr/jsp/front/po/230146/static/pdf/230146_A2BL_short_260429.pdf" target="_blank" class="doc-row">
+      <div class="doc-row-left"><div class="doc-badge">PDF</div><div class="doc-info"><span class="doc-title">모집공고 축약 (A2BL)</span><span class="doc-date">2026.04.29 · 84㎡ 요약본</span></div></div>
+      <span class="doc-arrow">↓</span>
+    </a>
+    <a href="https://www.elife.co.kr/jsp/front/po/230146/static/pdf/230146_A1BL_260429.pdf" target="_blank" class="doc-row">
+      <div class="doc-row-left"><div class="doc-badge">PDF</div><div class="doc-info"><span class="doc-title">모집공고 전문 (A1BL)</span><span class="doc-date">2026.04.29 · 95㎡ 전체 공고</span></div></div>
+      <span class="doc-arrow">↓</span>
+    </a>
+    <a href="https://www.elife.co.kr/jsp/front/po/230146/static/pdf/230146_A1BL_short_260429.pdf" target="_blank" class="doc-row">
+      <div class="doc-row-left"><div class="doc-badge">PDF</div><div class="doc-info"><span class="doc-title">모집공고 축약 (A1BL)</span><span class="doc-date">2026.04.29 · 95㎡ 요약본</span></div></div>
+      <span class="doc-arrow">↓</span>
+    </a>
   </div>
+
+  <div style="text-align:center;margin-top:2rem;">
+    <button id="docs-toggle" onclick="toggleDocs()"
+      style="background:none;border:1px solid rgba(45,74,45,0.2);color:var(--forest-mid);font-size:.8rem;letter-spacing:.08em;padding:.7rem 2rem;border-radius:2px;cursor:pointer;transition:all .2s;font-family:'Noto Sans KR',sans-serif;">MORE +</button>
+  </div>
+
+  <script>
+    function toggleDocs() {
+      const more = document.getElementById('docs-more');
+      const btn = document.getElementById('docs-toggle');
+      if (more.style.display === 'none') {
+        more.style.display = 'flex';
+        btn.textContent = 'CLOSE −';
+      } else {
+        more.style.display = 'none';
+        btn.textContent = 'MORE +';
+      }
+    }
+  </script>
+</section>
 <div id="gallery-popup" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:1000;align-items:center;justify-content:center;flex-direction:column;">
   <button onclick="closePopup()" style="position:absolute;top:1.5rem;right:2rem;background:none;border:none;color:#fff;font-size:2rem;cursor:pointer;line-height:1;">×</button>
   <img id="popup-img" src="" alt="" style="max-width:90vw;max-height:85vh;object-fit:contain;border-radius:4px;">
