@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>자료실 — 안양 에버포레 입예협</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #2d4a2d; --forest-mid: #3d6b3d; --forest-light: #5a8f5a;
+    --sage: #8fad8f; --cream: #f8f5ef; --warm-white: #fdfcf9;
+    --text: #1e2820; --text-muted: #6b7a6b; --gold: #b89a5a;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Noto Sans KR',sans-serif; background:var(--warm-white); color:var(--text); }
+
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:1.2rem 3rem; background:rgba(253,252,249,0.93);
+    backdrop-filter:blur(12px); border-bottom:1px solid rgba(45,74,45,0.1);
+  }
+  .nav-logo { font-family:'Noto Serif KR',serif; font-size:1rem; font-weight:600; color:var(--forest); text-decoration:none; }
+  .nav-logo span { color:var(--gold); }
+  .nav-back { font-size:.82rem; color:var(--text-muted); text-decoration:none; letter-spacing:.06em; transition:color .2s; }
+  .nav-back:hover { color:var(--forest); }
+
+  .hero {
+    padding:8rem 3rem 4rem; position:relative; overflow:hidden;
+    background: linear-gradient(160deg, #1a2e1a 0%, #2d4a2d 45%, #3d6b3d 100%);
+  }
+  .hero-content { position:relative; z-index:1; max-width:700px; }
+  .hero-tag { font-size:.7rem; letter-spacing:.18em; color:var(--gold); margin-bottom:1rem; }
+  .hero h1 { font-family:'Noto Serif KR',serif; font-size:clamp(1.8rem,4vw,2.8rem); font-weight:300; color:#fff; line-height:1.3; }
+  .hero p { margin-top:1rem; font-size:.88rem; color:rgba(255,255,255,.5); line-height:1.8; }
+
+  main { max-width:860px; margin:0 auto; padding:4rem 3rem; }
+
+  .doc-section { margin-bottom:3rem; }
+  .doc-section-title {
+    font-family:'Noto Serif KR',serif; font-size:1.1rem; font-weight:400;
+    color:var(--forest); margin-bottom:1.2rem; padding-bottom:.8rem;
+    border-bottom:1px solid rgba(45,74,45,0.15);
+    display:flex; align-items:center; gap:.6rem;
+  }
+  .doc-list { display:flex; flex-direction:column; gap:.6rem; }
+  .doc-item {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:1rem 1.4rem; background:var(--cream);
+    border:1px solid rgba(45,74,45,0.1); border-radius:4px;
+    transition:border-color .2s, transform .2s;
+    text-decoration:none;
+    gap:1rem;
+  }
+  .doc-item:hover { border-color:var(--forest-light); transform:translateX(4px); }
+  .doc-item-left { display:flex; align-items:center; gap:.8rem; }
+  .doc-icon {
+    width:36px; height:36px; background:var(--forest); border-radius:3px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:.7rem; color:#fff; font-weight:700; letter-spacing:.02em; flex-shrink:0;
+  }
+  .doc-name { font-size:.88rem; font-weight:500; color:var(--text); }
+  .doc-desc { font-size:.75rem; color:var(--text-muted); margin-top:.2rem; }
+  .doc-download {
+    font-size:.72rem; color:var(--forest-mid); letter-spacing:.06em;
+    white-space:nowrap; flex-shrink:0;
+  }
+
+  .notice {
+    background:rgba(45,74,45,0.06); border-left:3px solid var(--forest-light);
+    border-radius:3px; padding:1rem 1.2rem; margin-bottom:2rem;
+    font-size:.8rem; color:var(--text-muted); line-height:1.8;
+  }
+
+  @media(max-width:768px) {
+    nav { padding:1rem 1.5rem; }
+    .hero { padding:6rem 1.5rem 3rem; }
+    main { padding:2.5rem 1.5rem; }
+    .doc-item { flex-direction:column; align-items:flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">안양 에버포레 <span>입예협</span></a>
+  <a href="index.html" class="nav-back">← 메인으로</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-tag">DOCUMENTS</div>
+    <h1>자료실</h1>
+    <p>입주예정자에게 필요한 공식 문서들을 모아두었습니다.<br>공고문, 서류 양식 등을 다운로드하세요.</p>
+  </div>
+</div>
+
+<main>
+  <div class="notice">
+    ※ 아래 파일들은 경기주택도시공사·DL이앤씨 공식 홈페이지에서 제공하는 자료입니다.<br>
+    ※ 정확한 내용은 원본 파일을 직접 확인하시기 바랍니다.
+  </div>
+
+  <!-- 공급 안내 -->
+  <div class="doc-section">
+    <div class="doc-section-title">📋 공급 안내</div>
+    <div class="doc-list">
+      <a href="https://www.elife.co.kr/jsp/front/po/230146/static/pdf/230146_notice_01_260501.pdf" target="_blank" class="doc-item">
+        <div class="doc-item-left">
+          <div class="doc-icon">PDF</div>
+          <div>
+            <div class="doc-name">공급안내문</div>
+            <div class="doc-desc">A1·A2블록 공급 전반 안내</div>
+          </div>
+        </div>
+        <div class="doc-download">다운로드 →</div>
+      </a>
+      <a href="https://www.elife.co.kr/jsp/front/po/230146/static/pdf/230146_notice_02_260501.pdf" target="_blank" class="doc-item">
+        <div class="doc-item-left">
+          <div class="doc-icon">PDF</div>
+          <div>
+            <div class="doc-name">공급가격표</div>
+            <div class="doc-desc">A1·A2블록 타입별 분양가 상세</div>
+          </div>
+        </div>
+        <div class="doc-download">다운로드 →</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- 입주자 모집공고 -->
+  <div class="doc-section">
+    <div class="doc-section-title">📄 입주자 모집공고</div>
+    <div class="doc-list">
+      <a href="https://www.elife.co.kr/jsp/front/po/230146/static/pdf/230146_A1BL_260429.pdf" target="_blank" class="doc-item">
+        <div class="doc-item-left">
+          <div class="doc-icon">PDF</div>
+          <div>
+            <div class="doc-name">입주자 모집공고 전문 (A1BL)</div>
+            <div class="doc-desc">A1블록 전용면적 95㎡ 테라스형 연립</div>
+          </div>
+        </div>
+        <div class="doc-download">다운로드 →</div>
+      </a>
+      <a href="https://www.elife.co.kr/jsp/front/po/230146/static/pdf/230146_A1BL_short_260429.pdf" target="_blank" class="doc-item">
+        <div class="doc-item-left">
+          <div class="doc-icon">PDF</div>
+          <div>
+            <div class="doc-name">입주자 모집공고 축약 (A1BL)</div>
+            <div class="doc-desc">A1블록 요약본</div>
+          </div>
+        </div>
+        <div class="doc-download">다운로드 →</div>
+      </a>
+      <a href="https://www.elife.co.kr/jsp/front/po/230146/static/pdf/230146_A2BL_260429.pdf" target="_blank" class="doc-item">
+        <div class="doc-item-left">
+          <div class="doc-icon">PDF</div>
+          <div>
+            <div class="doc-name">입주자 모집공고 전문 (A2BL)</div>
+            <div class="doc-desc">A2블록 전용면적 84㎡ 아파트</div>
+          </div>
+        </div>
+        <div class="doc-download">다운로드 →</div>
+      </a>
+      <a href="https://www.elife.co.kr/jsp/front/po/230146/static/pdf/230146_A2BL_short_260429.pdf" target="_blank" class="doc-item">
+        <div class="doc-item-left">
+          <div class="doc-icon">PDF</div>
+          <div>
+            <div class="doc-name">입주자 모집공고 축약 (A2BL)</div>
+            <div class="doc-desc">A2블록 요약본</div>
+          </div>
+        </div>
+        <div class="doc-download">다운로드 →</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- 서류 제출 안내 -->
+  <div class="doc-section">
+    <div class="doc-section-title">📎 서류 제출 안내 및 양식</div>
+    <div class="doc-list">
+      <a href="https://www.elife.co.kr/jsp/front/po/230146/static/pdf/230146_notice_A1BL_260519.pdf" target="_blank" class="doc-item">
+        <div class="doc-item-left">
+          <div class="doc-icon">PDF</div>
+          <div>
+            <div class="doc-name">서류제출 안내문 (A1BL)</div>
+            <div class="doc-desc">A1블록 당첨자 자격검증 서류 안내</div>
+          </div>
+        </div>
+        <div class="doc-download">다운로드 →</div>
+      </a>
+      <a href="https://www.elife.co.kr/jsp/front/po/230146/static/pdf/230146_notice_A2BL_260519.pdf" target="_blank" class="doc-item">
+        <div class="doc-item-left">
+          <div class="doc-icon">PDF</div>
+          <div>
+            <div class="doc-name">서류제출 안내문 (A2BL)</div>
+            <div class="doc-desc">A2블록 당첨자 자격검증 서류 안내</div>
+          </div>
+        </div>
+        <div class="doc-download">다운로드 →</div>
+      </a>
+      <a href="https://www.elife.co.kr/jsp/front/po/230146/static/pdf/230146_notice_01_260519.pdf" target="_blank" class="doc-item">
+        <div class="doc-item-left">
+          <div class="doc-icon">PDF</div>
+          <div>
+            <div class="doc-name">개인정보 수집·이용·제공 동의서</div>
+            <div class="doc-desc">서류 제출 시 필요 서식</div>
+          </div>
+        </div>
+        <div class="doc-download">다운로드 →</div>
+      </a>
+      <a href="https://www.elife.co.kr/jsp/front/po/230146/static/pdf/230146_notice_02_260519.pdf" target="_blank" class="doc-item">
+        <div class="doc-item-left">
+          <div class="doc-icon">PDF</div>
+          <div>
+            <div class="doc-name">위임장</div>
+            <div class="doc-desc">대리인 서류 제출 시 필요 서식</div>
+          </div>
+        </div>
+        <div class="doc-download">다운로드 →</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- 유용한 링크 -->
+  <div class="doc-section">
+    <div class="doc-section-title">🔗 유용한 링크</div>
+    <div class="doc-list">
+      <a href="https://www.elife.co.kr/Posm_list01.action?commonMap.CD_BIZ_LND=230146" target="_blank" class="doc-item">
+        <div class="doc-item-left">
+          <div class="doc-icon" style="background:var(--gold);">홈</div>
+          <div>
+            <div class="doc-name">공식 분양 홈페이지</div>
+            <div class="doc-desc">DL이앤씨 e편한세상 공식 사이트</div>
+          </div>
+        </div>
+        <div class="doc-download">바로가기 →</div>
+      </a>
+      <a href="https://www.applyhome.co.kr" target="_blank" class="doc-item">
+        <div class="doc-item-left">
+          <div class="doc-icon" style="background:#3d5a8f;">청약</div>
+          <div>
+            <div class="doc-name">청약홈 (applyhome.co.kr)</div>
+            <div class="doc-desc">당첨 조회, 청약 신청</div>
+          </div>
+        </div>
+        <div class="doc-download">바로가기 →</div>
+      </a>
+      <a href="simulator.html" class="doc-item">
+        <div class="doc-item-left">
+          <div class="doc-icon" style="background:#5a3d8f;">계산</div>
+          <div>
+            <div class="doc-name">분양가 시뮬레이터 (A2BL)</div>
+            <div class="doc-desc">옵션 선택에 따른 총 납부금액 계산</div>
+          </div>
+        </div>
+        <div class="doc-download">바로가기 →</div>
+      </a>
+    </div>
+  </div>
+</main>
+
+</body>
+</html>
