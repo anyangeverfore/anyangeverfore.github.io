@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>안양 에버포레 자연& e편한세상(A2BL) 분양가 시뮬레이터</title>
+<style>
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: 'Pretendard', 'Malgun Gothic', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
+    background: #f4f6f8;
+    color: #1a2332;
+    margin: 0;
+    padding: 12px;
+    line-height: 1.5;
+    font-size: 14px;
+  }
+  .container { max-width: 1280px; margin: 0 auto; }
+  h1 {
+    color: #1a4d2e;
+    border-bottom: 3px solid #2e7d32;
+    padding-bottom: 8px;
+    margin: 0 0 6px 0;
+    font-size: 18px;
+    line-height: 1.3;
+    word-break: keep-all;
+  }
+  .subtitle {
+    color: #666;
+    font-size: 11px;
+    line-height: 1.5;
+    margin-bottom: 14px;
+    word-break: keep-all;
+  }
+
+  /* 모바일 우선 - 1단 레이아웃 */
+  .layout { display: grid; grid-template-columns: 1fr; gap: 0; }
+
+  /* 태블릿 이상 */
+  @media (min-width: 768px) {
+    body { padding: 20px; font-size: 14px; }
+    h1 { font-size: 24px; padding-bottom: 10px; }
+    .subtitle { font-size: 13px; margin-bottom: 22px; }
+    .layout { grid-template-columns: 1fr 1fr; gap: 20px; }
+  }
+
+  .panel {
+    background: #fff;
+    border-radius: 10px;
+    padding: 14px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    margin-bottom: 12px;
+  }
+  @media (min-width: 768px) {
+    .panel { padding: 20px; border-radius: 12px; margin-bottom: 18px; }
+  }
+
+  .panel h2 {
+    font-size: 15px;
+    color: #1a4d2e;
+    margin: 0 0 12px 0;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e0e8e0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  @media (min-width: 768px) {
+    .panel h2 { font-size: 16px; gap: 8px; }
+  }
+  .panel h2 .badge {
+    background: #2e7d32;
+    color: #fff;
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .row { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; align-items: center; }
+  .row label { font-size: 13px; font-weight: 700; color: #333; min-width: 56px; flex-shrink: 0; }
+  select, input[type=number] {
+    flex: 1; min-width: 120px;
+    padding: 10px 12px;
+    border: 1px solid #cdd5d8; border-radius: 8px;
+    font-size: 15px; background: #fff;
+    -webkit-appearance: none; appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path fill='%23666' d='M6 8L2 4h8z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+  }
+  select:focus, input:focus { outline: none; border-color: #2e7d32; box-shadow: 0 0 0 3px rgba(46,125,50,0.12); }
+
+  .opt-group {
+    margin-bottom: 12px;
+    padding: 10px 10px 6px 10px;
+    border: 1px solid #e0e6e9;
+    border-radius: 8px;
+    background: #fafbfc;
+  }
+  .opt-group-title {
+    font-weight: 700;
+    font-size: 13px;
+    color: #1a4d2e;
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .opt-group-title .note { color: #999; font-weight: 400; font-size: 11px; }
+
+  /* 옵션 아이템 - 터치 타겟 확보 */
+  .opt-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 10px 4px;
+    font-size: 13px;
+    gap: 10px;
+    min-height: 44px;
+    border-bottom: 1px solid #f0f3f5;
+  }
+  .opt-item:last-child { border-bottom: none; }
+  .opt-item input[type=checkbox], .opt-item input[type=radio] {
+    width: 20px; height: 20px;
+    cursor: pointer;
+    accent-color: #2e7d32;
+    margin-top: 1px;
+    flex-shrink: 0;
+  }
+  .opt-item label {
+    flex: 1; cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: baseline;
+    line-height: 1.4;
+  }
+  .opt-item label span.lbl { flex: 1 1 auto; min-width: 0; word-break: keep-all; }
+  .opt-item label span.price {
+    color: #c62828;
+    font-weight: 700;
+    white-space: nowrap;
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+  }
+  .opt-item.disabled { opacity: 0.4; }
+  .opt-item.disabled label { cursor: not-allowed; }
+  .opt-item input:disabled { cursor: not-allowed; }
+  .none-row { background: #eef4ee; border-radius: 6px; }
+
+  /* 합계 카드 */
+  .summary-card {
+    background: linear-gradient(135deg, #1a4d2e 0%, #2e7d32 100%);
+    color: #fff;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    position: sticky;
+    top: 8px;
+    z-index: 10;
+    box-shadow: 0 4px 12px rgba(26,77,46,0.25);
+  }
+  @media (min-width: 768px) {
+    .summary-card { padding: 22px; margin-bottom: 18px; position: static; }
+  }
+  .summary-card .label { font-size: 12px; opacity: 0.85; }
+  .summary-card .total {
+    font-size: 24px;
+    font-weight: 800;
+    margin-top: 4px;
+    letter-spacing: -0.5px;
+    font-variant-numeric: tabular-nums;
+  }
+  @media (min-width: 768px) {
+    .summary-card .total { font-size: 32px; }
+  }
+  .summary-card .sub { font-size: 11px; opacity: 0.85; margin-top: 6px; line-height: 1.5; word-break: keep-all; }
+
+  /* 비용 상세 */
+  table.detail { width: 100%; border-collapse: collapse; font-size: 12px; table-layout: fixed; }
+  table.detail td:first-child { word-break: keep-all; overflow-wrap: anywhere; }
+  @media (min-width: 768px) {
+    table.detail { font-size: 13px; }
+  }
+  table.detail th, table.detail td { padding: 8px 6px; border-bottom: 1px solid #eef1f3; text-align: left; vertical-align: top; }
+  table.detail th { background: #f5f7f9; font-weight: 600; color: #555; font-size: 12px; }
+  table.detail td.amt { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  table.detail tr.total-row td {
+    font-weight: 700;
+    background: #f9fbe7;
+    border-top: 2px solid #afb42b;
+    border-bottom: none;
+    font-size: 14px;
+  }
+  table.detail tr.section td {
+    background: #e8f5e9;
+    font-weight: 700;
+    color: #1a4d2e;
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+
+  /* 납부 일정 - 모바일 카드 뷰 */
+  .schedule-cards { display: none; }
+  @media (max-width: 600px) {
+    .schedule-table { display: none; }
+    .schedule-cards { display: block; }
+    .sch-card {
+      border: 1px solid #e0e6e9;
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+      background: #fff;
+    }
+    .sch-card .sch-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .sch-card .sch-title { font-weight: 700; color: #1a4d2e; font-size: 13px; }
+    .sch-card .sch-date { font-size: 11px; color: #888; }
+    .sch-card .sch-amt {
+      color: #c62828;
+      font-weight: 800;
+      font-size: 16px;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+    .sch-card .sch-extra { font-size: 11px; color: #666; margin-top: 4px; line-height: 1.5; }
+    .sch-card.total-card {
+      background: #1a4d2e;
+      color: #fff;
+      border-color: #1a4d2e;
+    }
+    .sch-card.total-card .sch-title { color: #fff; }
+    .sch-card.total-card .sch-amt { color: #fbc02d; font-size: 18px; }
+  }
+  .schedule-table th { background: #1a4d2e; color: #fff; }
+  .schedule-table td.amt { color: #c62828; font-weight: 700; white-space: normal; }
+  .schedule-table td.amt .amt-main { white-space: nowrap; font-size: 14px; }
+  .schedule-table td.amt .amt-detail {
+    display: block;
+    color: #666;
+    font-size: 11px;
+    font-weight: 400;
+    margin-top: 4px;
+    white-space: normal;
+    word-break: keep-all;
+    line-height: 1.45;
+  }
+  .schedule-table colgroup col.col-label { width: 22%; }
+  .schedule-table colgroup col.col-date  { width: 22%; }
+  .schedule-table colgroup col.col-amt   { width: 56%; }
+
+  /* 옵션비 분할표 */
+  .opt-split {
+    margin-top: 14px;
+    border: 1px solid #e0e6e9;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .opt-split-title {
+    background: #f1f8f4;
+    color: #1a4d2e;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 8px 12px;
+    border-bottom: 1px solid #e0e6e9;
+  }
+  .opt-split table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .opt-split th, .opt-split td {
+    padding: 7px 10px;
+    text-align: right;
+    border-bottom: 1px solid #f0f3f5;
+    font-variant-numeric: tabular-nums;
+  }
+  .opt-split th:first-child, .opt-split td:first-child { text-align: left; }
+  .opt-split thead th { background: #fafbfc; color: #555; font-weight: 600; }
+  .opt-split tr.total td { background: #fffde7; font-weight: 700; border-bottom: none; }
+
+  /* Tip / Warn */
+  .tip, .warn {
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    line-height: 1.55;
+    margin-bottom: 10px;
+    word-break: keep-all;
+  }
+  .tip { background: #fffbe6; border-left: 3px solid #fbc02d; color: #5d4e00; }
+  .warn { background: #fff3e0; border-left: 3px solid #ef6c00; color: #663c00; }
+  @media (min-width: 768px) {
+    .tip, .warn { font-size: 12px; padding: 10px 14px; }
+  }
+
+  .reset-btn {
+    background: #607d8b;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    margin-left: auto;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .reset-btn:active { background: #455a64; }
+
+  /* 빠른 스크롤 이동을 위한 가운데 정렬 효과 */
+  .scrollto { scroll-margin-top: 80px; }
+
+  /* 작성자 명패 */
+  .author-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, #2e7d32, #1a4d2e);
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    box-shadow: 0 2px 6px rgba(46,125,50,0.3);
+    letter-spacing: -0.2px;
+  }
+  .author-badge::before { content: '✍'; font-size: 11px; }
+  .header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+  }
+  .footer-signature {
+    text-align: center;
+    margin: 24px 0 12px 0;
+    padding: 18px 14px;
+    background: #fff;
+    border-radius: 10px;
+    border: 1px dashed #c8d6c8;
+  }
+  .footer-signature .sig-line {
+    font-size: 14px;
+    color: #1a4d2e;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+  }
+  .footer-signature .sig-sub {
+    margin-top: 4px;
+    font-size: 11px;
+    color: #888;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header-row">
+    <h1 style="flex:1; margin:0;">🏡 안양 에버포레 자연& e편한세상(A2BL) 분양가 시뮬레이터</h1>
+    <span class="author-badge">Made by 차은준아빠님</span>
+  </div>
+  <div class="subtitle">
+    경기도 안양시 동안구 관양동 521번지 일원 · 전용 84㎡ 국민주택 344세대 · 입주예정 2028년 8월 ·
+    공급기관 경기주택도시공사
+  </div>
+
+  <div class="layout">
+    <!-- 좌측: 입력 -->
+    <div>
+      <div class="panel">
+        <h2>1️⃣ 주택형 / 층 선택
+          <button class="reset-btn" onclick="resetAll()">전체 초기화</button>
+        </h2>
+        <div class="row">
+          <label>주택형</label>
+          <select id="type" onchange="recalc()">
+            <option value="84A">84A (전용 84.9794㎡)</option>
+            <option value="84B">84B (전용 84.9830㎡)</option>
+            <option value="84C">84C (전용 84.9548㎡)</option>
+            <option value="84D" selected>84D (전용 84.9603㎡)</option>
+          </select>
+        </div>
+        <div class="row">
+          <label>층</label>
+          <select id="floor" onchange="recalc()">
+            <option value="1">1층</option>
+            <option value="2">2층</option>
+            <option value="3">3층</option>
+            <option value="4">4층</option>
+            <option value="5-9">5~9층</option>
+            <option value="10+" selected>10층 이상</option>
+          </select>
+        </div>
+        <div class="tip">
+          ※ 발코니 확장은 전 세대 의무(비확장 선택 불가). 자동 포함됩니다.
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>2️⃣ 추가선택품목 Ⅱ (시스템에어컨) <span class="badge">택1</span></h2>
+        <div class="warn">⚠ 시스템에어컨은 공급계약 체결과 동시 계약, 이후 추가/변경/해지 불가.</div>
+        <div id="ac-group"></div>
+      </div>
+
+      <div class="panel">
+        <h2>3️⃣ 추가선택품목 Ⅲ - 현관 / 주방 / 침실 / 욕실 / 발코니</h2>
+        <div id="gen-group"></div>
+      </div>
+
+      <div class="panel">
+        <h2>4️⃣ 추가선택품목 Ⅲ - 빌트인 가전</h2>
+        <div id="appl-group"></div>
+      </div>
+    </div>
+
+    <!-- 우측: 결과 -->
+    <div>
+      <div class="summary-card">
+        <div class="label">총 납부금액 (분양가 + 발코니확장 + 유상옵션)</div>
+        <div class="total" id="grand-total">0 원</div>
+        <div class="sub" id="grand-sub">취득세 등 제세공과금 별도</div>
+      </div>
+
+      <div class="panel">
+        <h2>📋 비용 상세 내역</h2>
+        <table class="detail" id="breakdown">
+          <colgroup><col style="width:62%"><col style="width:38%"></colgroup>
+          <thead><tr><th>항목</th><th style="text-align:right">금액 (원)</th></tr></thead>
+          <tbody id="breakdown-body"></tbody>
+        </table>
+      </div>
+
+      <div class="panel">
+        <h2>💰 시점별 납부 일정</h2>
+        <table class="detail schedule-table" id="schedule">
+          <colgroup>
+            <col class="col-label">
+            <col class="col-date">
+            <col class="col-amt">
+          </colgroup>
+          <thead>
+            <tr><th>납부 시점</th><th>일자</th><th style="text-align:right">금액 (원)</th></tr>
+          </thead>
+          <tbody id="schedule-body"></tbody>
+        </table>
+        <div class="schedule-cards" id="schedule-cards"></div>
+
+        <!-- 옵션비만 따로 분할 납부 보기 -->
+        <div class="opt-split" id="opt-split"></div>
+        <div class="tip" style="margin-top:12px;">
+          ※ 분양대금: 계약금 10% + 중도금 60%(6회) + 잔금 30%. 잔금 중 75,000,000원은 주택도시기금 융자 가능.<br>
+          ※ 발코니 확장비: 계약 시 20% + 입주 시 80%.<br>
+          ※ 시스템에어컨(Ⅱ): 계약시 10% + 1차 중도금일 30% + 입주시 60%.<br>
+          ※ 추가옵션(Ⅲ): 계약시 10% + 중도금 30%(추후) + 입주시 60%.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" style="margin-top: 20px;">
+    <h2>📎 데이터 출처</h2>
+    <div style="font-size: 12px; color: #666;">
+      안양 에버포레 자연& e편한세상(A2BL) 입주자모집공고문 (공고번호 2026000126, 2026.04.29 승인)<br>
+      ※ 본 시뮬레이터는 공고문 기준 참고용입니다. 정확한 금액은 공급계약서·발코니확장 계약서·추가선택품목 계약서를 따릅니다.
+    </div>
+  </div>
+
+  <div class="footer-signature">
+    <div class="sig-line">🏠 Made by <span style="background:linear-gradient(90deg,#2e7d32,#66bb6a);-webkit-background-clip:text;background-clip:text;color:transparent;">차은준아빠</span></div>
+    <div class="sig-sub">우리 가족의 안양 에버포레 입주를 기다리며 · 2026</div>
+  </div>
+</div>
+
+<script>
+// ============================ 데이터 ============================
+const PRICE = {
+  // 타입+층별 분양가 (기본형 = 발코니 확장 별도)
+  base: {
+    '84A': { '1':761600000, '2':769600000, '3':777600000, '4':785600000, '5-9':793600000, '10+':801700000 },
+    '84B': { '1':752400000, '2':760300000, '3':768200000, '4':776100000, '5-9':784100000, '10+':792000000 },
+    '84C': { '1':748500000, '2':756300000, '3':764200000, '4':772100000, '5-9':780000000, '10+':787900000 },
+    '84D': { '1':760800000, '2':768800000, '3':776800000, '4':784800000, '5-9':792800000, '10+':800800000 },
+  },
+  // 발코니 확장 (의무)
+  balcony: { '84A':4811000, '84B':4768000, '84C':4248000, '84D':5020000 },
+
+  // 주택도시기금 융자 (분양가 잔금에서 분리)
+  fund: 75000000,
+};
+
+// 추가선택품목 Ⅱ - 시스템에어컨 (라디오 택1)
+const AC_OPTIONS = [
+  { id: 'ac_none', label: '미선택', price: 0, types: ['84A','84B','84C','84D'] },
+  { id: 'ac_lg_basic_2', label: 'LG/삼성 일반형 - 거실+침실1 (실내기 2대)', price: 3700000, types: ['84A','84B','84C','84D'] },
+  { id: 'ac_lg_basic_4', label: 'LG/삼성 일반형 - 거실+침실1+침실2+침실3 (실내기 4대)', price: 6600000, types: ['84A','84B','84C','84D'] },
+  { id: 'ac_lg_prem_2',  label: 'LG 프리미엄형 - 거실+침실1 (실내기 2대)', price: 4100000, types: ['84A','84B','84C','84D'] },
+  { id: 'ac_lg_prem_4',  label: 'LG 프리미엄형 - 거실+침실1+침실2+침실3 (실내기 4대)', price: 7400000, types: ['84A','84B','84C','84D'] },
+];
+
+// 일반 옵션 그룹
+const GEN_GROUPS = [
+  {
+    title: '현관 업그레이드',
+    note: '전 타입',
+    type: 'check',
+    items: [
+      { id: 'door', label: '현관 중문 (슬라이딩 도어)', price: { '84A':1500000, '84B':1500000, '84C':1500000, '84D':1500000 } },
+    ]
+  },
+  {
+    title: '주방 상판/벽 마감재 업그레이드 + 가구 조명',
+    note: '아일랜드장 구매 조건',
+    type: 'check',
+    items: [
+      { id: 'kitchen', label: '엔지니어드 스톤(래디언스/골든쇼어) + 가구 조명',
+        price: { '84A':2310000, '84B':3890000, '84C':2760000, '84D':3790000 } },
+    ]
+  },
+  {
+    title: '아일랜드장 (택1)',
+    note: '※ 주방 마감재 업그레이드 선택 시 구매 가능',
+    type: 'radio', group: 'island', dependsOn: 'kitchen',
+    items: [
+      { id: 'island_none', label: '미선택', price: { '84A':0, '84B':0, '84C':0, '84D':0 } },
+      { id: 'island_pet',  label: '아일랜드장 기본형(PET) + 무선충전 콘센트 + MMA/샌디드구스',
+        price: { '84A':1760000, '84B':1720000, '84C':1760000, '84D':1720000 } },
+      { id: 'island_stone',label: '아일랜드장 기본형(PET) + 무선충전 콘센트 + 엔지니어드 스톤',
+        price: { '84A':2080000, '84B':2000000, '84C':2080000, '84D':2000000 } },
+    ]
+  },
+  {
+    title: '침실1 드레스룸 (택1)',
+    note: '의류관리기 가전 미제공',
+    type: 'radio', group: 'dressroom',
+    items: [
+      { id: 'dr_none', label: '미선택', price: { '84A':0, '84B':0, '84C':0, '84D':0 } },
+      { id: 'dr_a1', label: '[84A] 일반형 + 오픈형 수납장',                    price: { '84A':4110000 } },
+      { id: 'dr_a2', label: '[84A] 의류관리기형 + 오픈형 수납장',                price: { '84A':4040000 } },
+      { id: 'dr_b1', label: '[84B] 일반형',                                  price: { '84B':1040000 } },
+      { id: 'dr_b2', label: '[84B] 의류관리기형',                              price: { '84B':1030000 } },
+      { id: 'dr_c1', label: '[84C] 일반형 + 오픈형 수납장',                    price: { '84C':3410000 } },
+      { id: 'dr_c2', label: '[84C] 일반형 + 의류관리기형',                      price: { '84C':1670000 } },
+      { id: 'dr_d1', label: '[84D] 드레스룸1 일반형 + 오픈형 수납장',            price: { '84D':2540000 } },
+      { id: 'dr_d2', label: '[84D] 드레스룸1 의류관리기형 + 오픈형 수납장',       price: { '84D':2430000 } },
+    ]
+  },
+  {
+    title: '침실1 드레스룸2 (84D 전용)',
+    note: '※ 드레스룸1 선택 시 구매 가능',
+    type: 'check',
+    items: [
+      { id: 'dr_d2_extra', label: '[84D] 드레스룸2 - 붙박이장(PET) + 건식벽체 + 가구도어 + 시스템 선반',
+        price: { '84D':3620000 } },
+    ]
+  },
+  {
+    title: '욕실 업그레이드',
+    note: '전 타입',
+    type: 'check',
+    items: [
+      { id: 'bath', label: '복합환풍기 (욕실1 + 욕실2)',
+        price: { '84A':1300000, '84B':1300000, '84C':1300000, '84D':1300000 } },
+    ]
+  },
+  {
+    title: '발코니(다용도실) 업그레이드',
+    note: '84A, 84B, 84C 한정',
+    type: 'check',
+    items: [
+      { id: 'laundry', label: '손빨래 하부장 + 다용도실 하부장 수전 + MMA/샌디드구스',
+        price: { '84A':1730000, '84B':1730000, '84C':1730000 } },
+    ]
+  },
+];
+
+// 빌트인 가전 옵션
+const APPL_GROUPS = [
+  {
+    title: '빌트인 식기세척기 (택1)',
+    type: 'radio', group: 'dishwasher',
+    items: [
+      { id: 'dw_none', label: '미선택', price: { '84A':0, '84B':0, '84C':0, '84D':0 } },
+      { id: 'dw_lg', label: 'LG 디오스 14인용 (DIE6PT) + 콘센트',
+        price: { '84A':1650000, '84B':1650000, '84C':1650000, '84D':1650000 } },
+      { id: 'dw_ss', label: '삼성 12인용 (DW80F71Y1SEW) + 콘센트',
+        price: { '84A':950000, '84B':950000, '84C':950000, '84D':950000 } },
+    ]
+  },
+  {
+    title: '빌트인 전기오븐 (택1)',
+    note: '※ 아일랜드장 선택 시 구매 가능',
+    type: 'radio', group: 'oven', dependsOnIsland: true,
+    items: [
+      { id: 'ov_none', label: '미선택', price: { '84A':0, '84B':0, '84C':0, '84D':0 } },
+      { id: 'ov_lg',   label: 'LG 광파오븐 (MZ385EBTA)',
+        price: { '84A':480000, '84B':480000, '84C':480000, '84D':480000 } },
+      { id: 'ov_nav',  label: '나비엔 매직 컨벡션 스팀 오븐 (EOB-5004)',
+        price: { '84A':650000, '84B':650000, '84C':650000, '84D':650000 } },
+      { id: 'ov_ss',   label: '삼성 전기오븐 (NQ50T8539BK)',
+        price: { '84A':900000, '84B':900000, '84C':900000, '84D':900000 } },
+    ]
+  },
+  {
+    title: '빌트인 전기쿡탑 (택1)',
+    note: '선택 시 기본 가스쿡탑 미설치',
+    type: 'radio', group: 'cooktop',
+    items: [
+      { id: 'ck_none', label: '미선택 (기본 3구 가스쿡탑 제공)',
+        price: { '84A':0, '84B':0, '84C':0, '84D':0 } },
+      { id: 'ck_nav',  label: '나비엔 매직 인덕션 2구 + 하이라이트 1구 (ERH-3903)',
+        price: { '84A':700000, '84B':700000, '84C':700000, '84D':700000 } },
+      { id: 'ck_lg',   label: 'LG 인덕션 3구 (BEI3GQBI)',
+        price: { '84A':1030000, '84B':1030000, '84C':1030000, '84D':1030000 } },
+      { id: 'ck_ss',   label: '삼성 인덕션 3구 (NZ63B5056AK)',
+        price: { '84A':1010000, '84B':1010000, '84C':1010000, '84D':1010000 } },
+    ]
+  },
+  {
+    title: '빌트인 냉장고 + 김치냉장고 + 냉장고장 (택1)',
+    type: 'radio', group: 'fridge',
+    items: [
+      { id: 'fr_none', label: '미선택', price: { '84A':0, '84B':0, '84C':0, '84D':0 } },
+      { id: 'fr_lg',   label: 'LG 오브제 4도어 냉장고 + 3도어 김치냉장고 + 냉장고장 + 인출식 키큰장',
+        price: { '84A':7530000, '84B':7540000, '84C':8430000, '84D':7540000 } },
+      { id: 'fr_ss',   label: '삼성 비스포크 1도어 냉장고 + 변온고 + 김치냉장고 + 냉장고장 + 인출식 키큰장',
+        price: { '84A':6440000, '84B':6450000, '84C':7350000, '84D':6450000 } },
+    ]
+  },
+];
+
+// 분양대금 납부 일정 (비율 기준)
+const PAY_SCHEDULE = [
+  { label: '계약금 10%',    date: '계약 시',         ratio: 0.10 },
+  { label: '중도금 1차 10%', date: '2026-11-17',     ratio: 0.10 },
+  { label: '중도금 2차 10%', date: '2027-02-16',     ratio: 0.10 },
+  { label: '중도금 3차 10%', date: '2027-05-18',     ratio: 0.10 },
+  { label: '중도금 4차 10%', date: '2027-08-17',     ratio: 0.10 },
+  { label: '중도금 5차 10%', date: '2027-12-14',     ratio: 0.10 },
+  { label: '중도금 6차 10%', date: '2028-04-18',     ratio: 0.10 },
+  { label: '잔금 30%',      date: '입주 시(2028.08 예정)', ratio: 0.30, isFinal: true },
+];
+
+// ============================ 렌더링 ============================
+function fmt(n) { return n.toLocaleString('ko-KR'); }
+
+function getType() { return document.getElementById('type').value; }
+function getFloor() { return document.getElementById('floor').value; }
+
+// 아일랜드장 선택 여부
+function isIslandSelected() {
+  const v = document.querySelector('input[name="island"]:checked');
+  return v && v.value !== 'island_none';
+}
+// 주방 마감재 선택 여부
+function isKitchenSelected() {
+  const el = document.getElementById('kitchen');
+  return el && el.checked;
+}
+
+function buildAC() {
+  const t = getType();
+  const root = document.getElementById('ac-group');
+  let html = '';
+  AC_OPTIONS.forEach((opt, idx) => {
+    const avail = opt.types.includes(t);
+    const isNone = opt.id === 'ac_none';
+    html += `
+      <div class="opt-item ${avail ? '' : 'disabled'} ${isNone ? 'none-row' : ''}">
+        <input type="radio" name="ac" id="${opt.id}" value="${opt.id}" ${idx===0?'checked':''} ${avail?'':'disabled'} onchange="recalc()">
+        <label for="${opt.id}">
+          <span class="lbl">${opt.label}</span>
+          <span class="price">${opt.price ? '+ '+fmt(opt.price) : '-'}</span>
+        </label>
+      </div>`;
+  });
+  root.innerHTML = html;
+}
+
+function buildGenericGroups(groups, rootId) {
+  const t = getType();
+  const root = document.getElementById(rootId);
+  let html = '';
+  groups.forEach(g => {
+    html += `<div class="opt-group">
+      <div class="opt-group-title"><span>${g.title}</span><span class="note">${g.note||''}</span></div>`;
+    g.items.forEach((it, idx) => {
+      const avail = it.price[t] !== undefined;
+      const price = it.price[t] || 0;
+      const isNone = it.id.endsWith('_none');
+      if (g.type === 'check') {
+        html += `<div class="opt-item ${avail ? '' : 'disabled'}">
+          <input type="checkbox" id="${it.id}" ${avail?'':'disabled'} onchange="recalc()">
+          <label for="${it.id}">
+            <span class="lbl">${it.label}</span>
+            <span class="price">${avail ? '+ '+fmt(price) : '해당없음'}</span>
+          </label>
+        </div>`;
+      } else {
+        html += `<div class="opt-item ${avail ? '' : 'disabled'} ${isNone ? 'none-row' : ''}">
+          <input type="radio" name="${g.group}" id="${it.id}" value="${it.id}" ${idx===0?'checked':''} ${avail?'':'disabled'} onchange="recalc()">
+          <label for="${it.id}">
+            <span class="lbl">${it.label}</span>
+            <span class="price">${avail ? (price ? '+ '+fmt(price) : '-') : '해당없음'}</span>
+          </label>
+        </div>`;
+      }
+    });
+    html += `</div>`;
+  });
+  root.innerHTML = html;
+}
+
+// 종속 옵션 활성/비활성 처리
+function applyDependencies() {
+  // 아일랜드장: 주방 선택 시에만
+  const kitchenOn = isKitchenSelected();
+  document.querySelectorAll('input[name="island"]').forEach(r => {
+    if (r.value === 'island_none') return;
+    r.disabled = !kitchenOn;
+    r.closest('.opt-item').classList.toggle('disabled', !kitchenOn);
+    if (!kitchenOn && r.checked) {
+      document.getElementById('island_none').checked = true;
+    }
+  });
+
+  // 84D 드레스룸2: 드레스룸1 선택 시에만
+  const t = getType();
+  const dr1 = document.querySelector('input[name="dressroom"]:checked');
+  const dr1Selected = dr1 && (dr1.value === 'dr_d1' || dr1.value === 'dr_d2');
+  const d2el = document.getElementById('dr_d2_extra');
+  if (d2el) {
+    const avail = (t === '84D') && dr1Selected;
+    d2el.disabled = !avail;
+    d2el.closest('.opt-item').classList.toggle('disabled', !avail);
+    if (!avail) d2el.checked = false;
+  }
+
+  // 전기오븐: 아일랜드장 선택 시에만
+  const islandOn = isIslandSelected();
+  document.querySelectorAll('input[name="oven"]').forEach(r => {
+    if (r.value === 'ov_none') return;
+    r.disabled = !islandOn;
+    r.closest('.opt-item').classList.toggle('disabled', !islandOn);
+    if (!islandOn && r.checked) {
+      document.getElementById('ov_none').checked = true;
+    }
+  });
+}
+
+function calcOptionsTotal() {
+  const t = getType();
+  let lines = []; // {section, label, amount}
+  let total = 0;
+
+  // 시스템에어컨
+  const ac = AC_OPTIONS.find(o => o.id === (document.querySelector('input[name="ac"]:checked')?.value || 'ac_none'));
+  if (ac && ac.price > 0) {
+    lines.push({ section: '추가선택Ⅱ - 시스템에어컨', label: ac.label, amount: ac.price });
+    total += ac.price;
+  }
+
+  // 일반 옵션 (Ⅲ)
+  GEN_GROUPS.forEach(g => {
+    if (g.type === 'check') {
+      g.items.forEach(it => {
+        const el = document.getElementById(it.id);
+        if (el && el.checked && !el.disabled) {
+          const p = it.price[t] || 0;
+          lines.push({ section: '추가선택Ⅲ - '+g.title.split(' ')[0], label: it.label, amount: p });
+          total += p;
+        }
+      });
+    } else { // radio
+      const sel = document.querySelector(`input[name="${g.group}"]:checked`);
+      if (sel && sel.value !== g.items[0].id) {
+        const it = g.items.find(x => x.id === sel.value);
+        if (it && !sel.disabled) {
+          const p = it.price[t] || 0;
+          if (p > 0) {
+            lines.push({ section: '추가선택Ⅲ - '+g.title.split(' ')[0], label: it.label, amount: p });
+            total += p;
+          }
+        }
+      }
+    }
+  });
+
+  // 빌트인 가전 (Ⅲ)
+  APPL_GROUPS.forEach(g => {
+    const sel = document.querySelector(`input[name="${g.group}"]:checked`);
+    if (sel && sel.value !== g.items[0].id) {
+      const it = g.items.find(x => x.id === sel.value);
+      if (it && !sel.disabled) {
+        const p = it.price[t] || 0;
+        if (p > 0) {
+          lines.push({ section: '추가선택Ⅲ - 빌트인', label: it.label, amount: p });
+          total += p;
+        }
+      }
+    }
+  });
+
+  return { lines, total };
+}
+
+let currentBuiltType = null;
+
+function recalc() {
+  const t = getType();
+  const f = getFloor();
+
+  // 타입이 바뀐 경우에만 옵션 그룹을 재구축 (innerHTML 덮어쓰면 선택값이 날아가므로)
+  if (t !== currentBuiltType) {
+    currentBuiltType = t;
+    buildAC();
+    buildGenericGroups(GEN_GROUPS, 'gen-group');
+    buildGenericGroups(APPL_GROUPS, 'appl-group');
+  }
+  applyDependencies();
+
+  const base = PRICE.base[t][f];
+  const balcony = PRICE.balcony[t];
+  const opts = calcOptionsTotal();
+
+  // 시스템에어컨 / Ⅲ 옵션 분리 (납부 일정용)
+  const ac = AC_OPTIONS.find(o => o.id === (document.querySelector('input[name="ac"]:checked')?.value || 'ac_none'));
+  const acPrice = ac ? ac.price : 0;
+  const opt3Price = opts.total - acPrice;
+
+  const grand = base + balcony + opts.total;
+
+  // 상세 내역
+  let html = '';
+  html += `<tr class="section"><td colspan="2">▣ 분양가 (기본)</td></tr>`;
+  html += `<tr><td>${t} · ${f === '10+' ? '10층 이상' : f === '5-9' ? '5~9층' : f+'층'} 분양가</td><td class="amt">${fmt(base)}</td></tr>`;
+  html += `<tr class="section"><td colspan="2">▣ 발코니 확장 (의무)</td></tr>`;
+  html += `<tr><td>${t} 발코니 확장공사비 (부가세 포함)</td><td class="amt">${fmt(balcony)}</td></tr>`;
+
+  if (opts.lines.length > 0) {
+    html += `<tr class="section"><td colspan="2">▣ 추가선택품목 (유상옵션)</td></tr>`;
+    opts.lines.forEach(l => {
+      html += `<tr><td><span style="color:#888;font-size:11px;">[${l.section}]</span><br>${l.label}</td><td class="amt">${fmt(l.amount)}</td></tr>`;
+    });
+    html += `<tr><td style="font-weight:600">유상옵션 소계</td><td class="amt" style="font-weight:600">${fmt(opts.total)}</td></tr>`;
+  } else {
+    html += `<tr class="section"><td colspan="2">▣ 추가선택품목 (유상옵션) - 선택 없음</td></tr>`;
+  }
+
+  html += `<tr class="total-row"><td>총 합계</td><td class="amt">${fmt(grand)} 원</td></tr>`;
+  document.getElementById('breakdown-body').innerHTML = html;
+  document.getElementById('grand-total').textContent = fmt(grand) + ' 원';
+  document.getElementById('grand-sub').textContent =
+    `분양가 ${fmt(base)} + 발코니 ${fmt(balcony)} + 옵션 ${fmt(opts.total)} | 취득세·인지세 별도, 주택도시기금 7,500만 융자 가능`;
+
+  // 납부 일정
+  let schHtml = '';
+  let cardHtml = '';
+  PAY_SCHEDULE.forEach(p => {
+    let amount = Math.round(base * p.ratio);
+    let detail = '';
+    if (p.label.startsWith('계약금')) {
+      const bal = Math.round(balcony * 0.20);
+      const ac10 = Math.round(acPrice * 0.10);
+      const o310 = Math.round(opt3Price * 0.10);
+      amount += bal + ac10 + o310;
+      detail = `분양가 ${fmt(Math.round(base*0.10))} + 확장 ${fmt(bal)}${acPrice?' + 시스템AC '+fmt(ac10):''}${opt3Price?' + 옵션Ⅲ '+fmt(o310):''}`;
+    } else if (p.label === '중도금 1차 10%') {
+      const ac30 = Math.round(acPrice * 0.30);
+      amount += ac30;
+      if (ac30) {
+        detail = `분양가 ${fmt(Math.round(base*0.10))} + 시스템AC ${fmt(ac30)}`;
+      }
+    } else if (p.isFinal) {
+      const bal80 = Math.round(balcony * 0.80);
+      const ac60 = Math.round(acPrice * 0.60);
+      const o360 = Math.round(opt3Price * 0.60);
+      amount += bal80 + ac60 + o360;
+      detail = `분양가잔금 ${fmt(Math.round(base*0.30))} + 확장 ${fmt(bal80)}${acPrice?' + AC '+fmt(ac60):''}${opt3Price?' + 옵션Ⅲ '+fmt(o360):''} · 주택도시기금 ${fmt(PRICE.fund)} 융자 가능`;
+    }
+    schHtml += `<tr>
+      <td>${p.label}</td>
+      <td>${p.date}</td>
+      <td class="amt">
+        <span class="amt-main">${fmt(amount)}</span>
+        ${detail ? `<span class="amt-detail">${detail}</span>` : ''}
+      </td>
+    </tr>`;
+    cardHtml += `
+      <div class="sch-card">
+        <div class="sch-head">
+          <span class="sch-title">${p.label}</span>
+          <span class="sch-date">${p.date}</span>
+        </div>
+        <div class="sch-amt">${fmt(amount)} 원</div>
+        ${detail ? `<div class="sch-extra">${detail}</div>` : ''}
+      </div>`;
+  });
+  schHtml += `<tr class="total-row"><td colspan="2">총 합계</td><td class="amt"><span class="amt-main">${fmt(grand)}</span></td></tr>`;
+  cardHtml += `
+    <div class="sch-card total-card">
+      <div class="sch-head">
+        <span class="sch-title">총 합계</span>
+      </div>
+      <div class="sch-amt">${fmt(grand)} 원</div>
+    </div>`;
+  document.getElementById('schedule-body').innerHTML = schHtml;
+  document.getElementById('schedule-cards').innerHTML = cardHtml;
+
+  // 옵션비 분할 납부표 (옵션이 있을 때만 표시)
+  const optTotal = opts.total;
+  const splitEl = document.getElementById('opt-split');
+  if (optTotal > 0) {
+    const ac10v = Math.round(acPrice * 0.10);
+    const ac30v = Math.round(acPrice * 0.30);
+    const ac60v = Math.round(acPrice * 0.60);
+    const o310v = Math.round(opt3Price * 0.10);
+    const o330v = Math.round(opt3Price * 0.30);
+    const o360v = Math.round(opt3Price * 0.60);
+    splitEl.innerHTML = `
+      <div class="opt-split-title">💡 옵션비만 따로 보는 분할 납부 (총 ${fmt(optTotal)}원)</div>
+      <table>
+        <thead>
+          <tr>
+            <th>구분</th>
+            <th>계약 시 (10%)</th>
+            <th>중도금 (30%)</th>
+            <th>입주 시 (60%)</th>
+            <th>소계</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${acPrice ? `<tr>
+            <td>시스템에어컨(Ⅱ)</td>
+            <td>${fmt(ac10v)}</td>
+            <td>${fmt(ac30v)}<br><span style="font-size:10px;color:#888">(2026-11-17)</span></td>
+            <td>${fmt(ac60v)}</td>
+            <td>${fmt(acPrice)}</td>
+          </tr>` : ''}
+          ${opt3Price ? `<tr>
+            <td>추가옵션(Ⅲ)</td>
+            <td>${fmt(o310v)}</td>
+            <td>${fmt(o330v)}<br><span style="font-size:10px;color:#888">(추후 안내)</span></td>
+            <td>${fmt(o360v)}</td>
+            <td>${fmt(opt3Price)}</td>
+          </tr>` : ''}
+          <tr class="total">
+            <td>합계</td>
+            <td>${fmt(ac10v + o310v)}</td>
+            <td>${fmt(ac30v + o330v)}</td>
+            <td>${fmt(ac60v + o360v)}</td>
+            <td>${fmt(optTotal)}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="padding:8px 12px;background:#fafbfc;font-size:11px;color:#666;line-height:1.5;border-top:1px solid #e0e6e9;">
+        ※ 공고문상 옵션비 비율은 <b>고정</b>이라 조율 불가하지만, <b>60%는 입주 시(2028.08)</b>이므로
+        실질 부담은 입주 임박해서 발생합니다. 계약 시 즉시 부담은 옵션 총액의 10% 뿐.
+      </div>
+    `;
+  } else {
+    splitEl.innerHTML = '';
+  }
+}
+
+function resetAll() {
+  document.getElementById('type').value = '84D';
+  document.getElementById('floor').value = '10+';
+  currentBuiltType = null; // 옵션 그룹 강제 재구축 → 모든 선택 초기화
+  recalc();
+}
+
+// ============================================================
+//  © 무단 수정 방지 장치 (Anti-Tamper)
+//  본 영역의 코드를 임의 수정하거나 제작자 표시를 변경할 경우
+//  모든 계산 기능이 자동으로 잠깁니다. 원본을 사용해 주세요.
+// ============================================================
+const _AC = [52264, 51008, 51456, 50500, 48736]; // 작성자 코드포인트
+const _AH = -1702063228;                          // Java-style hash
+const _AS = String.fromCharCode(..._AC);          // 복원된 작성자명
+
+function _hash(s) {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) {
+    h = ((h << 5) - h + s.charCodeAt(i)) | 0;
+  }
+  return h;
+}
+
+function _isAuthentic() {
+  // [방어선 1] 작성자 코드 자체의 해시가 일치하는가
+  if (_hash(_AS) !== _AH) return false;
+  // [방어선 2] 헤더 배지에 작성자명이 박혀 있는가
+  const badge = document.querySelector('.author-badge');
+  if (!badge || badge.textContent.indexOf(_AS) === -1) return false;
+  // [방어선 3] 푸터 사인에 작성자명이 박혀 있는가
+  const sig = document.querySelector('.sig-line');
+  if (!sig || sig.textContent.indexOf(_AS) === -1) return false;
+  return true;
+}
+
+let _locked = false;
+function _lockdown() {
+  if (_locked) return;
+  _locked = true;
+
+  // 입력 전부 비활성화
+  document.querySelectorAll('input, select, button').forEach(el => {
+    el.disabled = true;
+    el.style.pointerEvents = 'none';
+  });
+
+  // 결과 영역 클리어
+  const grandT = document.getElementById('grand-total');
+  const grandS = document.getElementById('grand-sub');
+  if (grandT) grandT.textContent = '🔒 잠김';
+  if (grandS) grandS.textContent = '무단 수정이 감지되었습니다';
+  ['breakdown-body','schedule-body','schedule-cards','opt-split'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = '';
+  });
+
+  // 전체 화면 경고 오버레이
+  const overlay = document.createElement('div');
+  overlay.id = '_tamper_overlay';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);';
+  overlay.innerHTML = `
+    <div style="background:#fff;border-radius:16px;padding:32px 28px;max-width:420px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.5);font-family:'Pretendard','Malgun Gothic',sans-serif">
+      <div style="font-size:48px;margin-bottom:12px">🚫</div>
+      <div style="font-size:20px;font-weight:800;color:#c62828;margin-bottom:10px">무단 수정 감지</div>
+      <div style="font-size:14px;color:#444;line-height:1.6">
+        본 시뮬레이터의 제작자 표시가 변경되었거나<br>
+        주요 영역이 무단 수정되어 모든 계산 기능이 잠겼습니다.
+      </div>
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid #eee;font-size:12px;color:#888;line-height:1.6">
+        원본 제작자: <b style="color:#1a4d2e">${_AS}</b><br>
+        원본 파일을 다시 받아 사용해 주세요.
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+}
+
+function _guard() {
+  if (!_isAuthentic()) _lockdown();
+}
+
+// [방어선 4] DOM 변화 감시 - 배지/사인 텍스트 변경 즉시 감지
+const _observer = new MutationObserver(_guard);
+_observer.observe(document.body, { childList: true, subtree: true, characterData: true });
+
+// [방어선 5] 주기적 재검 - MutationObserver disconnect 시도 대비
+setInterval(_guard, 1500);
+
+// [방어선 6] recalc 진입 시에도 검증 (계산 시도 차단)
+const _origRecalc = recalc;
+recalc = function() {
+  if (!_isAuthentic()) { _lockdown(); return; }
+  return _origRecalc.apply(this, arguments);
+};
+
+// 초기 렌더
+recalc();
+setTimeout(_guard, 200);
+</script>
+</body>
+</html>

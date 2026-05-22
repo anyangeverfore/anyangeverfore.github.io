@@ -239,6 +239,8 @@
 
   @media(max-width:768px){
     nav { padding:1rem 1.5rem; }
+    nav ul { display:none !important; }
+    .hamburger { display:flex !important; }
     .hero { padding:0 1.5rem 4rem; }
     .hero h1 { font-size:2rem; }
     .hero-cta { flex-direction:column; }
@@ -478,9 +480,20 @@
 <section style="padding:6rem 3rem;background:var(--cream);" id="simulator">
   <div class="section-tag">SIMULATOR</div>
   <h2 class="section-title">분양가 시뮬레이터</h2>
-  <p class="section-desc">옵션 선택에 따른 총 납부금액을 계산해보세요. (A2BL 전용)</p>
-  <div style="margin-top:2rem;border-radius:8px;overflow:hidden;border:1px solid rgba(45,74,45,0.1);background:#fff;">
-    <iframe src="simulator.html" width="100%" height="900px" style="border:none;display:block;" loading="lazy"></iframe>
+  <p class="section-desc">옵션 선택에 따른 총 납부금액을 계산해보세요.</p>
+
+  <div style="margin-top:2rem;">
+    <div style="font-family:'Noto Serif KR',serif;font-size:1rem;font-weight:400;color:var(--forest);margin-bottom:1rem;padding-bottom:.8rem;border-bottom:1px solid rgba(45,74,45,0.15);">A2BL · 전용 84㎡ 국민주택</div>
+    <div style="border-radius:8px;overflow:hidden;border:1px solid rgba(45,74,45,0.1);background:#fff;">
+      <iframe src="simulator.html" width="100%" height="900px" style="border:none;display:block;" loading="lazy"></iframe>
+    </div>
+  </div>
+
+  <div style="margin-top:3rem;">
+    <div style="font-family:'Noto Serif KR',serif;font-size:1rem;font-weight:400;color:var(--forest);margin-bottom:1rem;padding-bottom:.8rem;border-bottom:1px solid rgba(45,74,45,0.15);">A1BL · 전용 95㎡ 민영주택</div>
+    <div style="border-radius:8px;overflow:hidden;border:1px solid rgba(45,74,45,0.1);background:#fff;">
+      <iframe src="simulator_A1BL.html" width="100%" height="900px" style="border:none;display:block;" loading="lazy"></iframe>
+    </div>
   </div>
 </section>
 
@@ -628,9 +641,32 @@ document.getElementById('gallery-popup').addEventListener('click', function(e) {
     <a href="https://www.elife.co.kr/Posm_list01.action?commonMap.CD_BIZ_LND=230146" class="community-link" target="_blank"><span class="icon">🏢</span> 공식 홈페이지</a>
     <a href="board.html" class="community-link"><span class="icon">📋</span> 제안 게시판</a>
     <a href="docs.html" class="community-link"><span class="icon">📁</span> 자료실</a>
-    <a href="simulator.html" class="community-link"><span class="icon">🧮</span> 옵션 계산기</a>
+    <button onclick="document.getElementById('simulator-popup').style.display='flex'" class="community-link"><span class="icon">🧮</span> 옵션 계산기</button>
   </div>
 </section>
+
+<!-- 시뮬레이터 선택 팝업 -->
+<div id="simulator-popup" onclick="if(event.target===this)this.style.display='none'"
+  style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:center;justify-content:center;">
+  <div style="background:var(--warm-white);border-radius:8px;padding:2rem;max-width:340px;width:90%;text-align:center;">
+    <div style="font-family:'Noto Serif KR',serif;font-size:1.1rem;font-weight:400;color:var(--forest);margin-bottom:.5rem;">분양가 시뮬레이터</div>
+    <div style="font-size:.8rem;color:var(--text-muted);margin-bottom:1.5rem;">블록을 선택해주세요</div>
+    <div style="display:flex;flex-direction:column;gap:.8rem;">
+      <a href="simulator.html" target="_blank"
+        style="display:block;padding:1rem;background:var(--forest);color:#fff;border-radius:4px;text-decoration:none;font-size:.88rem;font-weight:500;">
+        🧮 A2BL 분양가 시뮬레이터
+        <div style="font-size:.72rem;opacity:.7;margin-top:.2rem;">전용 84㎡ · 국민주택 344세대</div>
+      </a>
+      <a href="simulator_A1BL.html" target="_blank"
+        style="display:block;padding:1rem;background:var(--cream);color:var(--forest);border:1px solid rgba(45,74,45,0.2);border-radius:4px;text-decoration:none;font-size:.88rem;font-weight:500;">
+        🧮 A1BL 분양가 시뮬레이터
+        <div style="font-size:.72rem;color:var(--text-muted);margin-top:.2rem;">전용 95㎡ · 민영주택 60세대</div>
+      </a>
+    </div>
+    <button onclick="document.getElementById('simulator-popup').style.display='none'"
+      style="margin-top:1.2rem;background:none;border:none;color:var(--text-muted);font-size:.78rem;cursor:pointer;font-family:'Noto Sans KR',sans-serif;">닫기</button>
+  </div>
+</div>
 
 <footer>
   <div>
