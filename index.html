@@ -33,12 +33,11 @@
   .nav-logo { font-family:'Noto Serif KR',serif; font-size:1rem; font-weight:600; color:var(--forest); letter-spacing:.04em; text-decoration:none; }
   .nav-logo span { color:var(--gold); }
   nav ul { display:none; }
-  .hamburger { display:flex; }
   nav a { font-size:.82rem; color:var(--text-muted); text-decoration:none; letter-spacing:.07em; transition:color .2s; }
   nav a:hover { color:var(--forest); }
 
   .hamburger {
-    display:none; flex-direction:column; gap:5px; cursor:pointer;
+    display:flex; flex-direction:column; gap:5px; cursor:pointer;
     background:none; border:none; padding:4px;
   }
   .hamburger span { display:block; width:22px; height:2px; background:var(--forest); border-radius:2px; transition:all .3s; }
