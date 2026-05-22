@@ -32,7 +32,8 @@
   }
   .nav-logo { font-family:'Noto Serif KR',serif; font-size:1rem; font-weight:600; color:var(--forest); letter-spacing:.04em; text-decoration:none; }
   .nav-logo span { color:var(--gold); }
-  nav ul { display:flex; gap:2rem; list-style:none; }
+  nav ul { display:none; }
+  .hamburger { display:flex; }
   nav a { font-size:.82rem; color:var(--text-muted); text-decoration:none; letter-spacing:.07em; transition:color .2s; }
   nav a:hover { color:var(--forest); }
 
@@ -239,8 +240,6 @@
 
   @media(max-width:768px){
     nav { padding:1rem 1.5rem; }
-    nav ul { display:none; }
-    .hamburger { display:flex; }
     .hero { padding:0 1.5rem 4rem; }
     .hero h1 { font-size:2rem; }
     .hero-cta { flex-direction:column; }
