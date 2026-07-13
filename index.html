@@ -24,39 +24,6 @@
   html { scroll-behavior:smooth; }
   body { font-family:'Noto Sans KR',sans-serif; background:var(--warm-white); color:var(--text); overflow-x:hidden; }
 
-  /* 공지 배너 */
-  #notice-banner {
-    position:fixed; top:0; left:0; right:0; z-index:200;
-    background:#b85c38; color:#fff;
-    display:flex; align-items:center; justify-content:center; gap:.8rem;
-    padding:.55rem 1rem; font-size:.82rem; font-weight:500; text-align:center;
-  }
-  #notice-banner a { color:#fff; text-decoration:underline; white-space:nowrap; }
-  #notice-banner button { background:none; border:none; color:#fff; font-size:1.1rem; cursor:pointer; flex-shrink:0; }
-  body.has-banner nav { top:34px; }
-  body.has-banner { padding-top:34px; }
-
-  /* 팝업 */
-  #notice-popup {
-    position:fixed; inset:0; z-index:300;
-    background:rgba(0,0,0,0.55); display:flex; align-items:center; justify-content:center; padding:1rem;
-  }
-  #notice-popup .popup-box {
-    background:#fff; border-radius:16px; padding:2rem 1.8rem;
-    max-width:340px; width:100%; text-align:center;
-    box-shadow:0 20px 60px rgba(0,0,0,0.3);
-  }
-  #notice-popup .popup-tag {
-    display:inline-block; background:#b85c38; color:#fff;
-    font-size:.72rem; padding:.25rem .7rem; border-radius:20px; margin-bottom:.9rem; letter-spacing:.05em;
-  }
-  #notice-popup h3 { font-size:1rem; font-weight:700; color:#1e2820; margin-bottom:.5rem; line-height:1.5; }
-  #notice-popup p { font-size:.8rem; color:#666; line-height:1.65; margin-bottom:1rem; }
-  #notice-popup img { width:150px; height:150px; margin:0 auto .9rem; display:block; border:1px solid #eee; border-radius:8px; }
-  #notice-popup .popup-btns { display:flex; gap:.6rem; justify-content:center; flex-wrap:wrap; }
-  #notice-popup .btn-primary { background:#b85c38; color:#fff; border:none; border-radius:8px; padding:.65rem 1.3rem; font-size:.85rem; font-weight:600; cursor:pointer; text-decoration:none; }
-  #notice-popup .btn-close { background:#efefef; color:#555; border:none; border-radius:8px; padding:.65rem 1.1rem; font-size:.83rem; cursor:pointer; }
-
   nav {
     position:fixed; top:0; left:0; right:0; z-index:100;
     display:flex; align-items:center; justify-content:space-between;
@@ -294,28 +261,8 @@
   }
 </style>
 </head>
-<body class="has-banner">
+<body>
 
-<!-- 공지 배너 -->
-<div id="notice-banner">
-  <span>📢 유리난간 변경 협의 동의서를 모집 중입니다.</span>
-  <a href="https://forms.gle/FcHMZWB4UdrDR1mo8" target="_blank">동의서 작성하기 →</a>
-  <button onclick="closeBanner()" aria-label="닫기">✕</button>
-</div>
-
-<!-- 팝업 -->
-<div id="notice-popup">
-  <div class="popup-box">
-    <div class="popup-tag">📢 입주예정자 협의회 공지</div>
-    <h3>유리난간 변경 협의<br>동의서 모집 중</h3>
-    <p>단지 내 유리난간 변경과 관련하여<br>입주예정자분들의 동의를 받고 있습니다.<br>아래 QR코드 또는 버튼을 통해 참여해주세요.</p>
-    <img src="qr_glass.jpg" alt="동의서 QR코드">
-    <div class="popup-btns">
-      <a href="https://forms.gle/FcHMZWB4UdrDR1mo8" target="_blank" class="btn-primary">동의서 작성하기</a>
-      <button class="btn-close" onclick="closePopup()">닫기</button>
-    </div>
-  </div>
-</div>
 
 <nav>
   <a href="#" class="nav-logo">안양 에버포레 <span>입예협</span></a>
@@ -385,15 +332,15 @@
     <div style="font-family:'Noto Serif KR',serif;font-size:1.1rem;font-weight:400;color:var(--forest);margin-bottom:.5rem;">오픈채팅 참여하기</div>
     <div style="font-size:.8rem;color:var(--text-muted);margin-bottom:1.5rem;">참여할 채팅방을 선택해주세요</div>
     <div style="display:flex;flex-direction:column;gap:.8rem;">
-      <a href="https://open.kakao.com/o/guJJ1Msi" target="_blank"
+      <a href="https://open.kakao.com/o/sor3chgi" target="_blank"
         style="display:block;padding:1rem;background:var(--forest);color:#fff;border-radius:4px;text-decoration:none;font-size:.88rem;font-weight:500;">
-        💬 예비입주자 전체 오픈채팅
-        <div style="font-size:.72rem;opacity:.7;margin-top:.2rem;">A1BL · A2BL 전체 입주예정자</div>
+        💬 계약 인증 신청 (1:1 채팅)
+        <div style="font-size:.72rem;opacity:.7;margin-top:.2rem;">계약서로 인증 후 단톡방 입장 가능</div>
       </a>
-      <a href="https://open.kakao.com/o/gvhltRti" target="_blank"
+      <a href="https://open.kakao.com/o/gtZikRDi" target="_blank"
         style="display:block;padding:1rem;background:var(--cream);color:var(--forest);border:1px solid rgba(45,74,45,0.2);border-radius:4px;text-decoration:none;font-size:.88rem;font-weight:500;">
-        💬 A2BL 전용 오픈채팅
-        <div style="font-size:.72rem;color:var(--text-muted);margin-top:.2rem;">A2BL 당첨자 전용</div>
+        🏡 계약완료 인증 단톡방
+        <div style="font-size:.72rem;color:var(--text-muted);margin-top:.2rem;">인증 완료 후 입장</div>
       </a>
     </div>
     <button onclick="document.getElementById('kakao-popup').style.display='none'"
@@ -858,16 +805,6 @@ document.getElementById('gallery-popup').addEventListener('click', function(e) {
   });
 </script>
 
-<script>
-  function closePopup() {
-    document.getElementById('notice-popup').style.display = 'none';
-  }
-  function closeBanner() {
-    const banner = document.getElementById('notice-banner');
-    banner.style.display = 'none';
-    document.body.classList.remove('has-banner');
-    document.querySelector('nav').style.top = '0';
-  }
-</script>
+
 </body>
 </html>
