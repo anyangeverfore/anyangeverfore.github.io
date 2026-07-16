@@ -838,6 +838,15 @@ document.getElementById('gallery-popup').addEventListener('click', function(e) {
   });
 </script>
 
-
+<script>
+  function closePopup() {
+    document.getElementById('notice-popup').style.display = 'none';
+  }
+  function closeBanner() {
+    document.getElementById('notice-banner').style.display = 'none';
+    document.body.classList.remove('has-banner');
+    document.querySelector('nav').style.top = '0';
+  }
+</script>
 </body>
 </html>
